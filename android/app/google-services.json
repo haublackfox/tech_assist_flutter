@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "970587080955",
+    "project_id": "techassist-flutter-next",
+    "storage_bucket": "techassist-flutter-next.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970587080955:android:77cfef9868fd1c87a6885e",
+        "android_client_info": {
+          "package_name": "com.example.tech_assist_flutter_next"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970587080955-sl4jje7isk855pmqcctrsolgb7c690ke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tech_assist_flutter_next",
+            "certificate_hash": "919c47fc1f3396161015f75bfec8b52a77dd6da7"
+          }
+        },
+        {
+          "client_id": "970587080955-20g97gofne402r3vg09h9139jauah26h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAzhK_0ECLf968x4ejzfzhIhs6Di6YVwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970587080955-20g97gofne402r3vg09h9139jauah26h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
