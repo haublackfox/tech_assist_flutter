@@ -71,7 +71,7 @@ class _WorkersWidrawalState extends State<WorkersWidrawal> {
           SizedBox(
             height: 8,
           ),
-          Text('At TechAssist you will find a',
+          Text('At TechAssist we provide skilled',
               style: GoogleFonts.tinos(
                   textStyle: TextStyle(
                       letterSpacing: 1.3,
@@ -81,23 +81,23 @@ class _WorkersWidrawalState extends State<WorkersWidrawal> {
           SizedBox(
             height: 8,
           ),
-          Text('Service Worker who is good and',
+          Text('worker and high quality services',
               style: GoogleFonts.tinos(
                   textStyle: TextStyle(
                       letterSpacing: 1.3,
                       fontSize: 20,
                       //color: Color(0xff41a58d),
                       fontWeight: FontWeight.w500))),
-          SizedBox(
-            height: 8,
-          ),
-          Text('quality when it comes to service.',
-              style: GoogleFonts.tinos(
-                  textStyle: TextStyle(
-                      letterSpacing: 1.3,
-                      fontSize: 20,
-                      //color: Color(0xff41a58d),
-                      fontWeight: FontWeight.w500))),
+          //   SizedBox(
+          //     height: 8,
+          //   ),
+          //   Text('services.',
+          //       style: GoogleFonts.tinos(
+          //           textStyle: TextStyle(
+          //               letterSpacing: 1.3,
+          //               fontSize: 20,
+          //               //color: Color(0xff41a58d),
+          //               fontWeight: FontWeight.w500))),
           Container(
             height: 400,
             //   constraints: const BoxConstraints.expand(),

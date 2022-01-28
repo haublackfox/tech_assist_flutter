@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:tech_assist_flutter_next/home_page.dart';
 import 'package:tech_assist_flutter_next/home_screen.dart';
 import 'package:tech_assist_flutter_next/screens/client_signin_page.dart';
+import 'package:tech_assist_flutter_next/widgets/snackbar.dart';
 
 class ClientSignUpPage extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _ClientSignUpPageState extends State<ClientSignUpPage> {
   bool _value = false;
   int val = -1;
   bool isSecondPage = false;
-  String validId = '';
+  String validId = '1';
   File? selectedImage;
   bool _isLoading = false;
   String url = '';
@@ -128,72 +129,82 @@ class _ClientSignUpPageState extends State<ClientSignUpPage> {
     }
 
     void _submitForm() async {
-      setState(() {
-        _isLoading = true;
-      });
+      if (selectedImage != null &&
+          fullnameCtrl.text.isNotEmpty &&
+          validId != "1") {
+        print("hehehehe");
+        setState(() {
+          _isLoading = true;
+        });
+        try {
+          await _auth.createUserWithEmailAndPassword(
+              email: emailCtrl.text, //_emailAddress.toLowerCase().trim(),
+              password: pswCtrl.text);
 
-      try {
-        await _auth.createUserWithEmailAndPassword(
-            email: emailCtrl.text, //_emailAddress.toLowerCase().trim(),
-            password: pswCtrl.text);
+          final User user = _auth.currentUser!;
+          final _uid = user.uid;
+          user.reload();
+          //user.updateProfile(displayName: )
 
-        final User user = _auth.currentUser!;
-        final _uid = user.uid;
-        user.reload();
-        //user.updateProfile(displayName: )
+          var date = DateTime.now().toString();
+          var dateparse = DateTime.parse(date);
+          var formattedDate =
+              "${dateparse.day}-${dateparse.month}-${dateparse.year}";
 
-        var date = DateTime.now().toString();
-        var dateparse = DateTime.parse(date);
-        var formattedDate =
-            "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId + '.jpg');
+          await ref.putFile(selectedImage!);
+          url = await ref.getDownloadURL();
 
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId + '.jpg');
-        await ref.putFile(selectedImage!);
-        url = await ref.getDownloadURL();
+          DocumentSnapshot doc = await usersRef.doc(_uid).get();
+          if (!doc.exists) {
+            await FirebaseFirestore.instance.collection('users').doc(_uid).set({
+              'id': _uid,
+              'username': nameCtrl.text,
+              'email': emailCtrl.text,
+              'phoneNumber': phoneCtrl.text,
+              'bday': birthdate,
+              'address': addressCtrl.text,
+              'gender': val.toString() == '2' ? 'Female' : 'Male',
+              'fullname': fullnameCtrl.text,
+              'validID': url,
+              'validID2': '',
+              'validID3': '',
+              'validID4': '',
+              'validID5': '',
+              'joinedAt': formattedDate,
+              //    'createdAt': Timestamp.now(),
+              'isClient': "true",
+              'jobdescription': "Client".toLowerCase(),
+              'jobexperience': "",
+              'imageurl': "",
+              'status': "Not verified"
+            });
+          }
 
-        DocumentSnapshot doc = await usersRef.doc(_uid).get();
-        if (!doc.exists) {
-          await FirebaseFirestore.instance.collection('users').doc(_uid).set({
-            'id': _uid,
-            'username': nameCtrl.text,
-            'email': emailCtrl.text,
-            'phoneNumber': phoneCtrl.text,
-            'bday': birthdate,
-            'address': addressCtrl.text,
-            'gender': val.toString() == '2' ? 'Female' : 'Male',
-            'fullname': fullnameCtrl.text,
-            'validID': url,
-            'validID2': '',
-            'validID3': '',
-            'validID4': '',
-            'validID5': '',
-            'joinedAt': formattedDate,
-            //    'createdAt': Timestamp.now(),
-            'isClient': "true",
-            'jobdescription': "Client",
-            'jobexperience': "",
-            'imageurl': "",
-            'status': "Not verified"
+          // REUSE FOR SIGNING UP
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } catch (error) {
+          //_globalMethods.authErrorHandle(error.message, context);
+          print('error occured ${error.toString()}');
+        } finally {
+          setState(() {
+            _isLoading = false;
           });
         }
-
-        // REUSE FOR SIGNING UP
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      } catch (error) {
-        //_globalMethods.authErrorHandle(error.message, context);
-        print('error occured ${error.toString()}');
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+      } else {
+        showSnackBar(
+            context,
+            "Please input all required fields first, in order to Register.",
+            Colors.red,
+            3000);
+        print("NOOOOOOO");
       }
-      // }
     }
 
     Widget SignUpOne() {
@@ -403,8 +414,8 @@ class _ClientSignUpPageState extends State<ClientSignUpPage> {
                       validator: (phone) {
                         if (phone == null || phone.isEmpty) {
                           return 'The phone number must be provided.';
-                        } else if (phone.length < 11) {
-                          return 'The phone number must be valid.';
+                        } else if (phone.length < 11 || phone.length > 11) {
+                          return 'The phone number must be 11 digits.';
                         }
                       },
                     ),
@@ -580,7 +591,10 @@ class _ClientSignUpPageState extends State<ClientSignUpPage> {
                             }
                             print("SSSSSSSSSSSSSSSSSSS" +
                                 isSecondPage.toString());
-                            setState(() {});
+
+                            setState(() {
+                              _isLoading = false;
+                            });
                           },
                           //   Navigator.push(
                           //     context,
@@ -686,7 +700,7 @@ class _ClientSignUpPageState extends State<ClientSignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: DropdownButton<String>(
                         underline: SizedBox(),
-                        hint: Text(validId != ''
+                        hint: Text(validId != '1'
                             ? "   $validId"
                             : "   Select your Valid ID's"),
                         items: <String>[

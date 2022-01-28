@@ -32,7 +32,7 @@ class _ClientSignInPageState extends State<ClientSignInPage> {
           .signInWithEmailAndPassword(
               email: emailCtrl.text, //_emailAddress.toLowerCase().trim(),
               password: pswCtrl.text)
-          .then((value) => Navigator.push(
+          .then((value) => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => HomeScreen()),
               ));

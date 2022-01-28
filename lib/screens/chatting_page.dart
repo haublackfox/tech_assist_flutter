@@ -3,12 +3,14 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_viewer/image_viewer.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tech_assist_flutter_next/widgets/haha.dart';
@@ -40,6 +42,7 @@ class _ChattingPageState extends State<ChattingPage> {
   String userId = "";
   var listMessage;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _isClient = '';
 
   @override
   void initState() {
@@ -60,46 +63,87 @@ class _ChattingPageState extends State<ChattingPage> {
       chatId = '$widget.receiverId-$userId';
     }
 
-    // Future<QuerySnapshot<Map<String, dynamic>>> haha = FirebaseFirestore.instance.collection("payments").get();
+    User user = _auth.currentUser!;
 
-    // print
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
 
-    // setState(() {});
+    setState(() {
+      _isClient = userDoc.get('isClient').toString();
+    });
+
+    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    print(_isClient);
+    print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
   }
 
   Future<void> onSendMessage(String contentMsg, int type) async {
+    String now = DateTime.now()
+        .add(Duration(seconds: 3))
+        .toUtc()
+        .millisecondsSinceEpoch
+        .toString();
     //type 0 text msg
     //type 1 imageFile
+    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+    print(DateTime.now());
+
+    print(now);
+    //   print(DateTime.now()
+    //       .add(Duration(seconds: 1))
+    //       .millisecondsSinceEpoch
+    //       .toString());
+    //   //   print(DateTime.now());
+    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 
     print("WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     if (contentMsg != "") {
       User user = _auth.currentUser!;
+      String now = DateTime.now()
+          .add(Duration(seconds: 3))
+          .toUtc()
+          .millisecondsSinceEpoch
+          .toString();
 
-      print("USERRRRRRRRRRRRRRRR");
-      print(user.uid);
-      print("USERRRRRRRRRRRRRRRR DAMAGE");
-      msgCtrl.clear();
+      print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+      print(DateTime.now());
 
-      print("RECEVVVVVVVVVVV");
-      print(widget.receiverId);
-      print("RECEVVVVVVVVVVV");
+      print(now);
+      //   print(DateTime.now()
+      //       .add(Duration(seconds: 1))
+      //       .millisecondsSinceEpoch
+      //       .toString());
+      //   //   print(DateTime.now());
+      print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+      print(now);
+
+      //   print("USERRRRRRRRRRRRRRRR");
+      //   print(user.uid);
+      //   print("USERRRRRRRRRRRRRRRR DAMAGE");
+      //   msgCtrl.clear();
+
+      //   print("RECEVVVVVVVVVVV");
+      //   print(widget.receiverId);
+      //   print("RECEVVVVVVVVVVV");
       //   var docRef = FirebaseFirestore.instance
       //       .collection("messages")
       //       .doc(chatId)
       //       .collection(chatId)
       //       .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
-      //   var docRef = FirebaseFirestore.instance
-      //       .collection("messages")
-      //       .doc(user.uid)
-      //       .collection(user.uid)
-      //       .doc(DateTime.now().millisecondsSinceEpoch.toString());
+      var docRef = FirebaseFirestore.instance
+          .collection("messages")
+          .doc(user.uid)
+          .collection(user.uid)
+          .doc(now);
 
-      //   var receiveRef = FirebaseFirestore.instance
-      //       .collection("messages")
-      //       .doc(widget.receiverId)
-      //       .collection(widget.receiverId)
-      //       .doc(DateTime.now().millisecondsSinceEpoch.toString());
+      var receiveRef = FirebaseFirestore.instance
+          .collection("messages")
+          .doc(widget.receiverId)
+          .collection(widget.receiverId)
+          .doc(now);
 
       final senderData = await FirebaseFirestore.instance
           .collection('users')
@@ -115,11 +159,11 @@ class _ChattingPageState extends State<ChattingPage> {
           .collection('messages')
           .doc(user.uid)
           .collection(user.uid)
-          .doc(DateTime.now().millisecondsSinceEpoch.toString())
+          .doc(now)
           .set({
         "idFrom": user.uid,
         "idTo": widget.receiverId,
-        "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+        "timestamp": now,
         "content": contentMsg,
         "type": type,
         "senders_name": senderData['fullname'],
@@ -135,11 +179,11 @@ class _ChattingPageState extends State<ChattingPage> {
           .collection('messages')
           .doc(widget.receiverId)
           .collection(widget.receiverId)
-          .doc(DateTime.now().millisecondsSinceEpoch.toString())
+          .doc(now)
           .set({
         "idFrom": user.uid,
         "idTo": widget.receiverId,
-        "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+        "timestamp": now,
         "content": contentMsg,
         "type": type,
         "senders_name": senderData['fullname'],
@@ -150,49 +194,9 @@ class _ChattingPageState extends State<ChattingPage> {
             " " +
             DateFormat("hh:mm:ss a").format(DateTime.now()), //DateTime.now(),
       });
-      //   FirebaseFirestore.instance.runTransaction((transaction) async {
-      //     await transaction.set(docRef, {
-      //       "idFrom": user.uid,
-      //       "idTo": widget.receiverId,
-      //       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      //       "content": contentMsg,
-      //       "type": type,
-      //       "senders_name": senderData['fullname'],
-      //       "senders_image": senderData['imageurl'],
-      //       "receiver_name": rcvData['fullname'],
-      //       "receiver_image": rcvData['imageurl'],
-      //       'timePosted': DateFormat("MM/dd/yyyy").format(DateTime.now()) +
-      //           " " +
-      //           DateFormat("hh:mm:ss a").format(DateTime.now()), //DateTime.now(),
-      //     });
-      //   });
 
-      //   FirebaseFirestore.instance.runTransaction((transaction) async {
-      //     await transaction.set(receiveRef, {
-      //       "idFrom": user.uid,
-      //       "idTo": widget.receiverId,
-      //       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      //       "content": contentMsg,
-      //       "type": type,
-      //       "senders_name": senderData['fullname'],
-      //       "senders_image": senderData['imageurl'],
-      //       "receiver_name": rcvData['fullname'],
-      //       "receiver_image": rcvData['imageurl'],
-      //       'timePosted': DateFormat("MM/dd/yyyy").format(DateTime.now()) +
-      //           " " +
-      //           DateFormat("hh:mm:ss a").format(DateTime.now()), //DateTime.now(),
-      //     });
-      //   });
+      msgCtrl.clear();
 
-      //   FirebaseFirestore.instance.runTransaction((transaction) async {
-      //     await transaction.set(receiveRef, {
-      //       "idFrom": userId,
-      //       "idTo": widget.receiverId,
-      //       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      //       "content": contentMsg,
-      //       "type": type,
-      //     });
-      //   });
       listScrollCtrl.animateTo(0.0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
@@ -411,321 +415,6 @@ class _ChattingPageState extends State<ChattingPage> {
     //.onError((error, stackTrace) => print(error));
   }
 
-  Widget msgScreen() {
-    return Container(
-        height: 450,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: Color(0xfff9f2f2),
-            border: Border.all(
-              color: Color(0xffb6b3b3),
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-              decoration: BoxDecoration(
-                  color: Color(0xffd6d0d0),
-                  border: Border.all(
-                    color: Color(0xffb6b3b3),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //   Column(
-                  //     children: [
-                  //       Container(
-                  //         decoration: BoxDecoration(
-                  //             color: Colors.white, border: Border.all()),
-                  //         height: 80,
-                  //         child: Image.asset("assets/images/beta_profile.png"),
-                  //       ),
-                  //     ],
-                  //   ),
-
-                  ClipOval(
-                      child: Material(
-                          color: Colors.blue,
-                          child:
-                              //   widget.receiverName != ''
-                              //       ? Container(
-                              //           width: 50,
-                              //           child: Image.network(
-                              //             widget.receiverName[0],
-                              //             fit: BoxFit.fitHeight,
-                              //           ),
-                              //         )
-                              //       :
-
-                              Container(
-                            width: 50,
-                            //   padding: const EdgeInsets
-                            //           .symmetric(
-                            //       horizontal: 36,
-                            //       vertical: 26),
-                            child: Center(
-                              child: Text(
-                                  widget.receiverName[
-                                      0], //userInfos[0].email[0] ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 18, color: Colors.white)),
-                            ),
-                          ))),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.receiverName,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Container(
-                        width: 300,
-                        child: Flexible(
-                          child: Text(
-                            'Thanks for sending me a message Just leave your inquiries/message I\'ll",',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-
-                        // Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //       Text('Thanks for sending me a message "CLIENT',
-                        //           style: TextStyle(
-                        //             fontSize: 12,
-                        //             fontWeight: FontWeight.w700,
-                        //           )),
-                        //       Text(
-                        //           "NAME! Just leave your inquiries/message I'll",
-                        //           style: TextStyle(
-                        //             fontSize: 12,
-                        //             fontWeight: FontWeight.w700,
-                        //           )),
-                        //       Text('check it later!',
-                        //           style: TextStyle(
-                        //             fontSize: 12,
-                        //             fontWeight: FontWeight.w700,
-                        //           )),
-                        //     ]),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-                width: 240,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    Text('06/25/21  12:27am',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff757575))),
-                  ],
-                )),
-            SizedBox(
-              height: 8,
-            ),
-            Row(children: [
-              Spacer(),
-              Container(
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    color: Color(0xffffbe7d),
-                    border: Border.all(
-                      color: Color(0xffb6b3b3),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text('Sent:',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          Text(' Hi sir Agsamosam, Electrician po',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              )),
-                        ],
-                      ),
-                      Text('kayo? Gusto ko po sana mag paayos ng',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          )),
-                      Text('wiring ng kuryente dito sa Bahay!',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          )),
-                    ]),
-              ),
-            ]),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-                width: 240,
-                child: Row(
-                  children: [
-                    Spacer(),
-                    Text('06/25/21  12:27am',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff757575))),
-                  ],
-                )),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  color: Color(0xff9dd4e5),
-                  border: Border.all(
-                    color: Color(0xffb6b3b3),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Received: Ah Sir, Saan po ang location',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        )),
-                    Text('niyo and pwede po makita yung aayusin',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        )),
-                    Text('na wirings?',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        )),
-                  ]),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: Color(0xffffbe7d),
-                      border: Border.all(
-                        color: Color(0xffb6b3b3),
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Received: Ah Sir, Saan po ang location',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )),
-                        Text('niyo and pwede po makita yung aayusin',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )),
-                        Text('na wirings?',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )),
-                      ]),
-                ),
-              ],
-            ),
-            Spacer(),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    print("HAHAHAHAHAHAfafadsfaf");
-                    selectImage(context);
-                  }, //get
-                  child: Icon(
-                    FontAwesomeIcons.plus,
-                    size: 30,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    print("TAAAAAAAAAAAAAAAAAAAP");
-                    showPayment(context, widget.receiverId);
-                  },
-                  child: Icon(
-                    FontAwesomeIcons.moneyBillWaveAlt,
-                    size: 30,
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  color: Color(0xffdfd1d1),
-                  height: 30,
-                  width: 270,
-                  child: TextField(
-                    style: TextStyle(
-                        fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
-                    //controller: _controller,
-                    cursorColor: Colors.greenAccent,
-                    decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                        hintText: "Enter Message here",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0))),
-                  ),
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Icon(
-                  Icons.send,
-                  size: 30,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 8,
-            )
-          ],
-        ));
-  }
-
   Widget top() {
     return Container(
         //height: 450,
@@ -737,9 +426,9 @@ class _ChattingPageState extends State<ChattingPage> {
             ),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 40,
-          ),
+          //   SizedBox(
+          //     height: 20,
+          //   ),
           Text(
             "MESSAGE",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -756,38 +445,12 @@ class _ChattingPageState extends State<ChattingPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //   Column(
-                //     children: [
-                //       Container(
-                //         decoration: BoxDecoration(
-                //             color: Colors.white, border: Border.all()),
-                //         height: 80,
-                //         child: Image.asset("assets/images/beta_profile.png"),
-                //       ),
-                //     ],
-                //   ),
-
                 ClipOval(
                     child: Material(
                         color: Colors.blue,
-                        child:
-                            //   widget.receiverName != ''
-                            //       ? Container(
-                            //           width: 50,
-                            //           child: Image.network(
-                            //             widget.receiverName[0],
-                            //             fit: BoxFit.fitHeight,
-                            //           ),
-                            //         )
-                            //       :
-
-                            Container(
+                        child: Container(
                           height: 50,
                           width: 50,
-                          //   padding: const EdgeInsets
-                          //           .symmetric(
-                          //       horizontal: 36,
-                          //       vertical: 26),
                           child: Center(
                             child: Text(
                                 widget.receiverName[
@@ -811,37 +474,16 @@ class _ChattingPageState extends State<ChattingPage> {
                       height: 4,
                     ),
                     Container(
-                      width: 300,
-                      // child: Flexible(
+                      width: 250,
+                      //child: Flexible(
                       child: Text(
-                        'Thanks for sending me a message Just leave your inquiries/message I\'ll",',
+                        'Thank you for message me. Don’t hesitate \nto ask and leave inquiries below',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       //),
-
-                      // Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text('Thanks for sending me a message "CLIENT',
-                      //           style: TextStyle(
-                      //             fontSize: 12,
-                      //             fontWeight: FontWeight.w700,
-                      //           )),
-                      //       Text(
-                      //           "NAME! Just leave your inquiries/message I'll",
-                      //           style: TextStyle(
-                      //             fontSize: 12,
-                      //             fontWeight: FontWeight.w700,
-                      //           )),
-                      //       Text('check it later!',
-                      //           style: TextStyle(
-                      //             fontSize: 12,
-                      //             fontWeight: FontWeight.w700,
-                      //           )),
-                      //     ]),
                     ),
                     SizedBox(
                       height: 4,
@@ -854,294 +496,16 @@ class _ChattingPageState extends State<ChattingPage> {
         ]));
   }
 
-//   Widget msgScreenTop() {
-//     return Container(
-//         height: 450,
-//         width: double.infinity,
-//         decoration: BoxDecoration(
-//             color: Color(0xfff9f2f2),
-//             border: Border.all(
-//               color: Color(0xffb6b3b3),
-//             ),
-//             borderRadius: BorderRadius.all(Radius.circular(10))),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Container(
-//               width: double.infinity,
-//               padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-//               decoration: BoxDecoration(
-//                   color: Color(0xffd6d0d0),
-//                   border: Border.all(
-//                     color: Color(0xffb6b3b3),
-//                   ),
-//                   borderRadius: BorderRadius.all(Radius.circular(10))),
-//               child: Row(
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: [
-//                   //   Column(
-//                   //     children: [
-//                   //       Container(
-//                   //         decoration: BoxDecoration(
-//                   //             color: Colors.white, border: Border.all()),
-//                   //         height: 80,
-//                   //         child: Image.asset("assets/images/beta_profile.png"),
-//                   //       ),
-//                   //     ],
-//                   //   ),
-//                   SizedBox(
-//                     width: 50,
-//                   ),
-//                   Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Text(widget.receiverName,
-//                           style: TextStyle(
-//                             fontSize: 16,
-//                             fontWeight: FontWeight.w700,
-//                           )),
-//                       SizedBox(
-//                         height: 4,
-//                       ),
-//                       Container(
-//                         width: 300,
-//                         child: Flexible(
-//                           child: Text(
-//                             'Thanks for sending me a message Just leave your inquiries/message I\'ll",',
-//                             style: TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.w700,
-//                             ),
-//                           ),
-//                         ),
-
-//                         // Column(
-//                         //     crossAxisAlignment: CrossAxisAlignment.start,
-//                         //     children: [
-//                         //       Text('Thanks for sending me a message "CLIENT',
-//                         //           style: TextStyle(
-//                         //             fontSize: 12,
-//                         //             fontWeight: FontWeight.w700,
-//                         //           )),
-//                         //       Text(
-//                         //           "NAME! Just leave your inquiries/message I'll",
-//                         //           style: TextStyle(
-//                         //             fontSize: 12,
-//                         //             fontWeight: FontWeight.w700,
-//                         //           )),
-//                         //       Text('check it later!',
-//                         //           style: TextStyle(
-//                         //             fontSize: 12,
-//                         //             fontWeight: FontWeight.w700,
-//                         //           )),
-//                         //     ]),
-//                       ),
-//                       SizedBox(
-//                         height: 4,
-//                       ),
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ),
-//             Container(
-//                 width: 240,
-//                 child: Row(
-//                   children: [
-//                     Spacer(),
-//                     Text('06/25/21  12:27am',
-//                         style: TextStyle(
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w700,
-//                             color: Color(0xff757575))),
-//                   ],
-//                 )),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Row(children: [
-//               Spacer(),
-//               Container(
-//                 padding: EdgeInsets.all(4),
-//                 decoration: BoxDecoration(
-//                     color: Color(0xffffbe7d),
-//                     border: Border.all(
-//                       color: Color(0xffb6b3b3),
-//                     ),
-//                     borderRadius: BorderRadius.all(Radius.circular(10))),
-//                 child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Text('Sent:',
-//                               style: TextStyle(
-//                                 fontSize: 12,
-//                                 fontWeight: FontWeight.w400,
-//                               )),
-//                           Text(' Hi sir Agsamosam, Electrician po',
-//                               style: TextStyle(
-//                                 fontSize: 12,
-//                                 fontWeight: FontWeight.w400,
-//                               )),
-//                         ],
-//                       ),
-//                       Text('kayo? Gusto ko po sana mag paayos ng',
-//                           style: TextStyle(
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           )),
-//                       Text('wiring ng kuryente dito sa Bahay!',
-//                           style: TextStyle(
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           )),
-//                     ]),
-//               ),
-//             ]),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Container(
-//                 width: 240,
-//                 child: Row(
-//                   children: [
-//                     Spacer(),
-//                     Text('06/25/21  12:27am',
-//                         style: TextStyle(
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w700,
-//                             color: Color(0xff757575))),
-//                   ],
-//                 )),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Container(
-//               padding: EdgeInsets.all(4),
-//               decoration: BoxDecoration(
-//                   color: Color(0xff9dd4e5),
-//                   border: Border.all(
-//                     color: Color(0xffb6b3b3),
-//                   ),
-//                   borderRadius: BorderRadius.all(Radius.circular(10))),
-//               child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text('Received: Ah Sir, Saan po ang location',
-//                         style: TextStyle(
-//                           fontSize: 12,
-//                           fontWeight: FontWeight.w400,
-//                         )),
-//                     Text('niyo and pwede po makita yung aayusin',
-//                         style: TextStyle(
-//                           fontSize: 12,
-//                           fontWeight: FontWeight.w400,
-//                         )),
-//                     Text('na wirings?',
-//                         style: TextStyle(
-//                           fontSize: 12,
-//                           fontWeight: FontWeight.w400,
-//                         )),
-//                   ]),
-//             ),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Row(
-//               children: [
-//                 Spacer(),
-//                 Container(
-//                   padding: EdgeInsets.all(4),
-//                   decoration: BoxDecoration(
-//                       color: Color(0xffffbe7d),
-//                       border: Border.all(
-//                         color: Color(0xffb6b3b3),
-//                       ),
-//                       borderRadius: BorderRadius.all(Radius.circular(10))),
-//                   child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text('Received: Ah Sir, Saan po ang location',
-//                             style: TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.w400,
-//                             )),
-//                         Text('niyo and pwede po makita yung aayusin',
-//                             style: TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.w400,
-//                             )),
-//                         Text('na wirings?',
-//                             style: TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.w400,
-//                             )),
-//                       ]),
-//                 ),
-//               ],
-//             ),
-//             Spacer(),
-//             Row(
-//               children: [
-//                 InkWell(
-//                   onTap: () {
-//                     print("HAHAHAHAHAHA");
-//                     selectImage(context);
-//                   }, //get
-//                   child: Icon(
-//                     FontAwesomeIcons.plus,
-//                     size: 30,
-//                   ),
-//                 ),
-//                 Icon(
-//                   FontAwesomeIcons.moneyBillWaveAlt,
-//                   size: 30,
-//                 ),
-//                 SizedBox(
-//                   width: 20,
-//                 ),
-//                 Container(
-//                   color: Color(0xffdfd1d1),
-//                   height: 30,
-//                   width: 270,
-//                   child: TextField(
-//                     style: TextStyle(
-//                         fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
-//                     //controller: _controller,
-//                     cursorColor: Colors.greenAccent,
-//                     decoration: InputDecoration(
-//                         contentPadding:
-//                             EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-//                         hintText: "Enter Message here",
-//                         border: OutlineInputBorder(
-//                             borderRadius: BorderRadius.circular(0))),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   width: 3,
-//                 ),
-//                 Icon(
-//                   Icons.send,
-//                   size: 30,
-//                 ),
-//               ],
-//             ),
-//             SizedBox(
-//               height: 8,
-//             )
-//           ],
-//         ));
-//   }
-
   @override
   Widget build(BuildContext context) {
     createInput() {
       return Container(
-          padding: EdgeInsets.all(16),
-          child: Row(
-            children: [
-              InkWell(
+          //padding: EdgeInsets.all(16),
+          child: ListTile(
+        leading: Wrap(
+          spacing: 12, // space between two icons
+          children: <Widget>[
+            InkWell(
                 onTap: () {
                   print("HAHAHAHAHAHA");
                   selectImage(context);
@@ -1149,51 +513,105 @@ class _ChattingPageState extends State<ChattingPage> {
                 child: Icon(
                   FontAwesomeIcons.plus,
                   size: 30,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  print("TAAAAAAAAAAAAAAAAAAAP");
-                  showPayment(context, widget.receiverId);
-                },
-                child: Icon(
-                  FontAwesomeIcons.moneyBillWaveAlt,
-                  size: 30,
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Container(
-                color: Color(0xffdfd1d1),
-                height: 30,
-                width: 250,
-                child: TextField(
-                  style: TextStyle(
-                      fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
-                  controller: msgCtrl,
-                  cursorColor: Colors.greenAccent,
-                  decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                      hintText: "Enter Message here",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0))),
-                  focusNode: focusNode,
-                ),
-              ),
-              SizedBox(
-                width: 3,
-              ),
-              InkWell(
-                onTap: () => onSendMessage(msgCtrl.text, 0),
-                child: Icon(
-                  Icons.send,
-                  size: 30,
-                ),
-              ),
-            ],
-          ));
+                )),
+            _isClient == "false"
+                ? Text("")
+                : InkWell(
+                    onTap: () {
+                      print("TAAAAAAAAAAAAAAAAAAAP");
+                      showPayment(context, widget.receiverId);
+                    },
+                    child: Icon(
+                      FontAwesomeIcons.moneyBillWaveAlt,
+                      size: 30,
+                    ),
+                  )
+          ],
+        ),
+        title: Container(
+          color: Color(0xffdfd1d1),
+          height: 30,
+          width: 250,
+          child: TextField(
+            style: TextStyle(
+                fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
+            controller: msgCtrl,
+            cursorColor: Colors.greenAccent,
+            decoration: InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                hintText: "Enter Message here",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(0))),
+            focusNode: focusNode,
+          ),
+        ),
+        trailing: InkWell(
+          onTap: () => onSendMessage(msgCtrl.text, 0),
+          child: Icon(
+            Icons.send,
+            size: 30,
+          ),
+        ),
+      )
+          //    Row(
+          //     children: [
+          //       InkWell(
+          //         onTap: () {
+          //           print("HAHAHAHAHAHA");
+          //           selectImage(context);
+          //         },
+          //         child: Icon(
+          //           FontAwesomeIcons.plus,
+          //           size: 30,
+          //         ),
+          //       ),
+          // _isClient == "false"
+          //     ? Container()
+          //     : InkWell(
+          //         onTap: () {
+          //           print("TAAAAAAAAAAAAAAAAAAAP");
+          //           showPayment(context, widget.receiverId);
+          //         },
+          //         child: Icon(
+          //           FontAwesomeIcons.moneyBillWaveAlt,
+          //           size: 30,
+          //         ),
+          //       ),
+          //       SizedBox(
+          //         width: 20,
+          //       ),
+          //       Container(
+          //         color: Color(0xffdfd1d1),
+          //         height: 30,
+          //         width: 250,
+          //         child: TextField(
+          //           style: TextStyle(
+          //               fontSize: 14, height: 1.5, fontWeight: FontWeight.w700),
+          //           controller: msgCtrl,
+          //           cursorColor: Colors.greenAccent,
+          //           decoration: InputDecoration(
+          //               contentPadding:
+          //                   EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+          //               hintText: "Enter Message here",
+          //               border: OutlineInputBorder(
+          //                   borderRadius: BorderRadius.circular(0))),
+          //           focusNode: focusNode,
+          //         ),
+          //       ),
+          //       SizedBox(
+          //         width: 3,
+          //       ),
+          //       InkWell(
+          //         onTap: () => onSendMessage(msgCtrl.text, 0),
+          //         child: Icon(
+          //           Icons.send,
+          //           size: 30,
+          //         ),
+          //       ),
+          //     ],
+          //   ));
+          );
     }
 
     //Receiver msgs -left
@@ -1272,64 +690,78 @@ class _ChattingPageState extends State<ChattingPage> {
                     ? Container(
                         margin: EdgeInsets.all(12),
                         child: FlatButton(
-                            child: Container(
-                              width: 200,
-                              child: Material(
-                                child: Image.network(document["content"]),
-                                //   CachedNetworkImage(
-                                //     imageUrl: document["content"],
-                                //     progressIndicatorBuilder:
-                                //         (context, url, downloadProgress) =>
-                                //             CircularProgressIndicator(
-                                //                 value: downloadProgress.progress),
-                                //     errorWidget: (context, url, error) =>
-                                //         Icon(Icons.error),
-                                //   ),
+                          child: Container(
+                            width: 200,
+                            child: Material(
+                              child: Image.network(document["content"]),
+                              //   CachedNetworkImage(
+                              //     imageUrl: document["content"],
+                              //     progressIndicatorBuilder:
+                              //         (context, url, downloadProgress) =>
+                              //             CircularProgressIndicator(
+                              //                 value: downloadProgress.progress),
+                              //     errorWidget: (context, url, error) =>
+                              //         Icon(Icons.error),
+                              //   ),
 
-                                //    CachedNetworkImage(
-                                //     placeholder: (context, url) => Container(
-                                //       child: CircularProgressIndicator(
-                                //         valueColor: AlwaysStoppedAnimation<Color>(
-                                //             Colors.lightBlueAccent),
-                                //       ), //CircularProgressIndicator
-                                //       width: 200.0,
-                                //       height: 200.0,
-                                //       padding: EdgeInsets.all(70.0),
-                                //       decoration: BoxDecoration(
-                                //         color: Colors.grey,
-                                //         borderRadius:
-                                //             BorderRadius.all(Radius.circular(8.0)),
-                                //       ), //BoxDecoration
-                                //     ), //Container
-                                //     // errorWidget: (context, url, error) => Material(
-                                //     //   child: Image.asset(
-                                //     //       "images/img_not_available.jpg",
-                                //     //       width: 200.0,
-                                //     //       height: 200.0,
-                                //     //       fit: BoxFit.cover),
-                                //     //   borderRadius:
-                                //     //       BorderRadius.all(Radius.circular(8.0)),
-                                //     //   clipBehavior: Clip.hardEdge,
-                                //     // ), //Material
-                                //     imageUrl: document["content"],
-                                //     width: 200.0,
-                                //     height: 200.0,
-                                //     fit: BoxFit.cover,
-                                //   ), //ChacheNetwork Image
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
-                                clipBehavior: Clip.hardEdge,
-                              ),
-                            ), //Material
-                            onPressed: () {
-                              print(document["content"]);
-                            }
-                            // {
-                            // 	Navigator.push(context, MaterialPageRoute(
-                            // 		builder: (context) => FullPhoto(url: document["content"]);
-                            // 	)); //MaterialPageRoute
-                            // },
-                            ), //FlatButton
+                              //    CachedNetworkImage(
+                              //     placeholder: (context, url) => Container(
+                              //       child: CircularProgressIndicator(
+                              //         valueColor: AlwaysStoppedAnimation<Color>(
+                              //             Colors.lightBlueAccent),
+                              //       ), //CircularProgressIndicator
+                              //       width: 200.0,
+                              //       height: 200.0,
+                              //       padding: EdgeInsets.all(70.0),
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.grey,
+                              //         borderRadius:
+                              //             BorderRadius.all(Radius.circular(8.0)),
+                              //       ), //BoxDecoration
+                              //     ), //Container
+                              //     // errorWidget: (context, url, error) => Material(
+                              //     //   child: Image.asset(
+                              //     //       "images/img_not_available.jpg",
+                              //     //       width: 200.0,
+                              //     //       height: 200.0,
+                              //     //       fit: BoxFit.cover),
+                              //     //   borderRadius:
+                              //     //       BorderRadius.all(Radius.circular(8.0)),
+                              //     //   clipBehavior: Clip.hardEdge,
+                              //     // ), //Material
+                              //     imageUrl: document["content"],
+                              //     width: 200.0,
+                              //     height: 200.0,
+                              //     fit: BoxFit.cover,
+                              //   ), //ChacheNetwork Image
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                          ), //Material
+                          // onPressed: () {
+
+                          //   print(document["content"]);
+                          // }
+
+                          onPressed: () {
+                            // ImageViewer.showImageSlider(
+                            //   images: [document["content"]],
+                            //   startingPosition: 1,
+                            // );
+                            final imageProvider =
+                                Image.network(document["content"]).image;
+                            showImageViewer(context, imageProvider,
+                                onViewerDismissed: () {
+                              print("dismissed");
+                            });
+                          },
+                          // {
+                          // 	Navigator.push(context, MaterialPageRoute(
+                          // 		builder: (context) => FullPhoto(url: document["content"]);
+                          // 	)); //MaterialPageRoute
+                          // },
+                        ), //FlatButton
                         //margin: EdgeInsets.only(bottom isLastMsgRight(index) ? 20.0 : 10.0, right: 10.0),
                       ) //Container
                     //Sticker .gif Msg
@@ -1373,65 +805,77 @@ class _ChattingPageState extends State<ChattingPage> {
                     ? Container(
                         margin: EdgeInsets.all(12),
                         child: FlatButton(
-                            child: Container(
-                              //  height: 400,
-                              width: 200,
-                              child: Material(
-                                child: Image.network(document["content"]),
-                                //   CachedNetworkImage(
-                                //     imageUrl: document["content"],
-                                //     progressIndicatorBuilder:
-                                //         (context, url, downloadProgress) =>
-                                //             CircularProgressIndicator(
-                                //                 value: downloadProgress.progress),
-                                //     errorWidget: (context, url, error) =>
-                                //         Icon(Icons.error),
-                                //   ),
+                          child: Container(
+                            //  height: 400,
+                            width: 200,
+                            child: Material(
+                              child: Image.network(document["content"]),
+                              //   CachedNetworkImage(
+                              //     imageUrl: document["content"],
+                              //     progressIndicatorBuilder:
+                              //         (context, url, downloadProgress) =>
+                              //             CircularProgressIndicator(
+                              //                 value: downloadProgress.progress),
+                              //     errorWidget: (context, url, error) =>
+                              //         Icon(Icons.error),
+                              //   ),
 
-                                //    CachedNetworkImage(
-                                //     placeholder: (context, url) => Container(
-                                //       child: CircularProgressIndicator(
-                                //         valueColor: AlwaysStoppedAnimation<Color>(
-                                //             Colors.lightBlueAccent),
-                                //       ), //CircularProgressIndicator
-                                //       width: 200.0,
-                                //       height: 200.0,
-                                //       padding: EdgeInsets.all(70.0),
-                                //       decoration: BoxDecoration(
-                                //         color: Colors.grey,
-                                //         borderRadius:
-                                //             BorderRadius.all(Radius.circular(8.0)),
-                                //       ), //BoxDecoration
-                                //     ), //Container
-                                //     // errorWidget: (context, url, error) => Material(
-                                //     //   child: Image.asset(
-                                //     //       "images/img_not_available.jpg",
-                                //     //       width: 200.0,
-                                //     //       height: 200.0,
-                                //     //       fit: BoxFit.cover),
-                                //     //   borderRadius:
-                                //     //       BorderRadius.all(Radius.circular(8.0)),
-                                //     //   clipBehavior: Clip.hardEdge,
-                                //     // ), //Material
-                                //     imageUrl: document["content"],
-                                //     width: 200.0,
-                                //     height: 200.0,
-                                //     fit: BoxFit.cover,
-                                //   ), //ChacheNetwork Image
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
-                                clipBehavior: Clip.hardEdge,
-                              ),
-                            ), //Material
-                            onPressed: () {
-                              print(document["content"]);
-                            }
-                            // {
-                            // 	Navigator.push(context, MaterialPageRoute(
-                            // 		builder: (context) => FullPhoto(url: document["content"]);
-                            // 	)); //MaterialPageRoute
-                            // },
-                            ), //FlatButton
+                              //    CachedNetworkImage(
+                              //     placeholder: (context, url) => Container(
+                              //       child: CircularProgressIndicator(
+                              //         valueColor: AlwaysStoppedAnimation<Color>(
+                              //             Colors.lightBlueAccent),
+                              //       ), //CircularProgressIndicator
+                              //       width: 200.0,
+                              //       height: 200.0,
+                              //       padding: EdgeInsets.all(70.0),
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.grey,
+                              //         borderRadius:
+                              //             BorderRadius.all(Radius.circular(8.0)),
+                              //       ), //BoxDecoration
+                              //     ), //Container
+                              //     // errorWidget: (context, url, error) => Material(
+                              //     //   child: Image.asset(
+                              //     //       "images/img_not_available.jpg",
+                              //     //       width: 200.0,
+                              //     //       height: 200.0,
+                              //     //       fit: BoxFit.cover),
+                              //     //   borderRadius:
+                              //     //       BorderRadius.all(Radius.circular(8.0)),
+                              //     //   clipBehavior: Clip.hardEdge,
+                              //     // ), //Material
+                              //     imageUrl: document["content"],
+                              //     width: 200.0,
+                              //     height: 200.0,
+                              //     fit: BoxFit.cover,
+                              //   ), //ChacheNetwork Image
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                          ), //Material
+                          // onPressed: () {
+                          //   print(document["content"]);
+                          // }
+                          onPressed: () {
+                            // ImageViewer.showImageSlider(
+                            //   images: [document["content"]],
+                            //   startingPosition: 1,
+                            // );
+                            final imageProvider =
+                                Image.network(document["content"]).image;
+                            showImageViewer(context, imageProvider,
+                                onViewerDismissed: () {
+                              print("dismissed");
+                            });
+                          },
+                          // {
+                          // 	Navigator.push(context, MaterialPageRoute(
+                          // 		builder: (context) => FullPhoto(url: document["content"]);
+                          // 	)); //MaterialPageRoute
+                          // },
+                        ), //FlatButton
                         //margin: EdgeInsets.only(bottom isLastMsgRight(index) ? 20.0 : 10.0, right: 10.0),
                       ) //Contai
                     : document["type"] == 2 &&
@@ -1530,8 +974,9 @@ class _ChattingPageState extends State<ChattingPage> {
 
                   print("YYYYYYYYYYYYYYY");
                   documents.forEach((doc) {
-                    print(doc[""]);
+                    print(doc);
                   });
+                  print(documents.last.data());
                   print("YYYYYYYYYYYYYYY");
                   return Center(
                     child: SingleChildScrollView(

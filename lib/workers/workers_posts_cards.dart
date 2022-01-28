@@ -89,148 +89,261 @@ class _WorkersPostsCardState extends State<WorkersPostsCard> {
                   itemBuilder: (context, index) => InkWell(
                         onTap: () {},
                         child: Container(
-                            padding: EdgeInsets.only(
-                                left: 8, right: 8, top: 8, bottom: 8),
-                            decoration: BoxDecoration(
-                                color: Color(0xfff9f2f2),
-                                border: Border.all(
-                                  color: Color(0xffb6b3b3),
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 80,
-                                      width: 80,
-                                      child: ClipOval(
-                                          child: Material(
-                                              color: Colors.blue,
-                                              child: posts[index][6]
-                                                          .toString() !=
-                                                      ''
-                                                  ? Image.network(
-                                                      posts[index][6]
-                                                          .toString(),
-                                                      fit: BoxFit.fitHeight,
-                                                    )
-                                                  : Center(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 36,
-                                                                vertical: 26),
-                                                        child: Text(
-                                                            posts[index][5]
-                                                                    .toString()[
-                                                                0], //userInfos[0].email[0] ?? '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: Colors
-                                                                        .white)),
-                                                      ),
-                                                    ))),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "    " + posts[index][2].toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                        // padding: EdgeInsets.symmetric(
-                                        //     vertical: 8, horizontal: 8),
-                                        //   Container(
-                                        decoration: BoxDecoration(
-                                          color:
-                                              Color(0xffdfd1d1).withAlpha(150),
-                                          border: Border.all(
-
-                                              //color: Colors.red[500],
+                          margin: EdgeInsets.symmetric(vertical: 4),
+                          padding: EdgeInsets.only(
+                              left: 8, right: 8, top: 8, bottom: 8),
+                          decoration: BoxDecoration(
+                              color: Color(0xfff9f2f2),
+                              border: Border.all(
+                                color: Color(0xffb6b3b3),
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: ListTile(
+                            leading: Container(
+                              // height: 80,
+                              width: 70,
+                              child: ClipOval(
+                                  child: Material(
+                                      color: Colors.blue,
+                                      child: posts[index][6].toString() != ''
+                                          ? Image.network(
+                                              posts[index][6].toString(),
+                                              fit: BoxFit.fitHeight,
+                                            )
+                                          : Center(
+                                              child: Container(
+                                                // padding:
+                                                //     const EdgeInsets.symmetric(
+                                                //         horizontal: 36,
+                                                //         vertical: 26),
+                                                child: Text(
+                                                    posts[index][5].toString()[
+                                                        0], //userInfos[0].email[0] ?? '',
+                                                    style: const TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.white)),
                                               ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        height: 100,
-                                        width: 260,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            ))),
+                            ),
+                            title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "    " + posts[index][2].toString(),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Container(
+                                    // padding: EdgeInsets.symmetric(
+                                    //     vertical: 8, horizontal: 8),
+                                    //   Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffdfd1d1).withAlpha(150),
+                                      border: Border.all(
+
+                                          //color: Colors.red[500],
+                                          ),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    height: 100,
+                                    width: 260,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            posts[index][3].toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Spacer(),
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChattingPage(
+                                                              receiverId: posts[
+                                                                      index][1]
+                                                                  .toString(),
+                                                              receiverName:
+                                                                  posts[index]
+                                                                          [2]
+                                                                      .toString(),
+                                                            )));
+                                              },
+                                              child: Text("MESSAGE ME",
+                                                  style: GoogleFonts.roboto(
+                                                      letterSpacing: 2,
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(
+                                                    width: 1.0,
+                                                    color: Color(0xfffafafa)),
+                                                shape: StadiumBorder(),
+                                                primary: Color(0xfff5970a),
+                                              )),
+                                          Row(
                                             children: [
+                                              Spacer(),
                                               Text(
-                                                posts[index][3].toString(),
+                                                posts[index][5].toString(),
                                                 style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey[700],
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Spacer(),
-                                              ElevatedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    ChattingPage(
-                                                                      receiverId:
-                                                                          posts[index][1]
-                                                                              .toString(),
-                                                                      receiverName:
-                                                                          posts[index][2]
-                                                                              .toString(),
-                                                                    )));
-                                                  },
-                                                  child: Text("MESSAGE ME",
-                                                      style: GoogleFonts.roboto(
-                                                          letterSpacing: 2,
-                                                          fontSize: 14,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w700)),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    side: BorderSide(
-                                                        width: 1.0,
-                                                        color:
-                                                            Color(0xfffafafa)),
-                                                    shape: StadiumBorder(),
-                                                    primary: Color(0xfff5970a),
-                                                  )),
-                                              Row(
-                                                children: [
-                                                  Spacer(),
-                                                  Text(
-                                                    posts[index][5].toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey[700],
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ],
-                                              )
-                                            ]),
-                                      ),
-                                    ])
-                              ],
-                            )),
+                                            ],
+                                          )
+                                        ]),
+                                  ),
+                                ]),
+                          ),
+
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          // Column(
+                          //   children: [
+                          //     Container(
+                          //       height: 80,
+                          //       width: 80,
+                          //       child: ClipOval(
+                          //           child: Material(
+                          //               color: Colors.blue,
+                          //               child: posts[index][6]
+                          //                           .toString() !=
+                          //                       ''
+                          //                   ? Image.network(
+                          //                       posts[index][6]
+                          //                           .toString(),
+                          //                       fit: BoxFit.fitHeight,
+                          //                     )
+                          //                   : Center(
+                          //                       child: Container(
+                          //                         padding:
+                          //                             const EdgeInsets
+                          //                                     .symmetric(
+                          //                                 horizontal: 36,
+                          //                                 vertical: 26),
+                          //                         child: Text(
+                          //                             posts[index][5]
+                          //                                     .toString()[
+                          //                                 0], //userInfos[0].email[0] ?? '',
+                          //                             style:
+                          //                                 const TextStyle(
+                          //                                     fontSize:
+                          //                                         15,
+                          //                                     color: Colors
+                          //                                         .white)),
+                          //                       ),
+                          //                     ))),
+                          //     )
+                          //   ],
+                          // ),
+                          //     SizedBox(
+                          //       width: 20,
+                          //     ),
+                          //     Column(
+                          //         crossAxisAlignment:
+                          //             CrossAxisAlignment.start,
+                          //         children: [
+                          //           Text(
+                          //             "    " + posts[index][2].toString(),
+                          //             style: TextStyle(
+                          //                 fontWeight: FontWeight.bold),
+                          //           ),
+                          //           SizedBox(
+                          //             height: 8,
+                          //           ),
+                          //           Container(
+                          //             // padding: EdgeInsets.symmetric(
+                          //             //     vertical: 8, horizontal: 8),
+                          //             //   Container(
+                          //             decoration: BoxDecoration(
+                          //               color:
+                          //                   Color(0xffdfd1d1).withAlpha(150),
+                          //               border: Border.all(
+
+                          //                   //color: Colors.red[500],
+                          //                   ),
+                          //               borderRadius: BorderRadius.all(
+                          //                   Radius.circular(10)),
+                          //             ),
+                          //             height: 100,
+                          //             width: 260,
+                          //             child: Column(
+                          //                 crossAxisAlignment:
+                          //                     CrossAxisAlignment.center,
+                          //                 children: [
+                          //                   Text(
+                          //                     posts[index][3].toString(),
+                          //                     style: TextStyle(
+                          //                         fontWeight:
+                          //                             FontWeight.bold),
+                          //                   ),
+                          //                   Spacer(),
+                          //                   ElevatedButton(
+                          //                       onPressed: () async {
+                          //                         Navigator.push(
+                          //                             context,
+                          //                             MaterialPageRoute(
+                          //                                 builder:
+                          //                                     (context) =>
+                          //                                         ChattingPage(
+                          //                                           receiverId:
+                          //                                               posts[index][1]
+                          //                                                   .toString(),
+                          //                                           receiverName:
+                          //                                               posts[index][2]
+                          //                                                   .toString(),
+                          //                                         )));
+                          //                       },
+                          //                       child: Text("MESSAGE ME",
+                          //                           style: GoogleFonts.roboto(
+                          //                               letterSpacing: 2,
+                          //                               fontSize: 14,
+                          //                               color: Colors.white,
+                          //                               fontWeight:
+                          //                                   FontWeight.w700)),
+                          //                       style:
+                          //                           ElevatedButton.styleFrom(
+                          //                         side: BorderSide(
+                          //                             width: 1.0,
+                          //                             color:
+                          //                                 Color(0xfffafafa)),
+                          //                         shape: StadiumBorder(),
+                          //                         primary: Color(0xfff5970a),
+                          //                       )),
+                          //                   Row(
+                          //                     children: [
+                          //                       Spacer(),
+                          //                       Text(
+                          //                         posts[index][5].toString(),
+                          //                         style: TextStyle(
+                          //                             fontSize: 12,
+                          //                             color: Colors.grey[700],
+                          //                             fontWeight:
+                          //                                 FontWeight.bold),
+                          //                       ),
+                          //                     ],
+                          //                   )
+                          //                 ]),
+                          //           ),
+                          //         ])
+                          //   ],
+                          // )
+                        ),
                       ));
             }),
       ),

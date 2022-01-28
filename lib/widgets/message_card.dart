@@ -129,9 +129,6 @@ class _OrderCardState extends State<OrderCard> {
                       child: chats[index][0].toString == user.uid
                           ? Container()
                           : Container(
-                              margin: EdgeInsets.symmetric(vertical: 4),
-                              padding: EdgeInsets.only(
-                                  left: 8, right: 8, top: 8, bottom: 8),
                               decoration: BoxDecoration(
                                   color: Color(0xfff9f2f2),
                                   border: Border.all(
@@ -139,133 +136,256 @@ class _OrderCardState extends State<OrderCard> {
                                   ),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 80,
-                                        width: 80,
-                                        child: ClipOval(
-                                            child: Material(
-                                                color: Colors.blue,
-                                                child: chats[index][6]
-                                                            .toString() !=
-                                                        ''
-                                                    ? Image.network(
-                                                        chats[index][6]
-                                                            .toString(),
-                                                        fit: BoxFit.fitHeight,
-                                                      )
-                                                    : Center(
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      36,
-                                                                  vertical: 26),
-                                                          child: Text(
-                                                              chats[index][5]
-                                                                      .toString()[
-                                                                  0], //userInfos[0].email[0] ?? '',
-                                                              style: const TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .white)),
-                                                        ),
-                                                      ))),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(chats[index][5].toString(),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xffece0e0),
-                                            border: Border.all(
-                                              color: Color(0xffb6b3b3),
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  // Text('Sent:',
-                                                  //     style: TextStyle(
-                                                  //       fontSize: 12,
-                                                  //       fontWeight:
-                                                  //           FontWeight.w700,
-                                                  //     )),
-                                                  Container(
-                                                    height: 100,
-                                                    width: 200,
-                                                    //child: Flexible(
-                                                    child: new Container(
-                                                      padding:
-                                                          new EdgeInsets.only(
-                                                              right: 13.0),
-                                                      child: new Text(
-                                                        "Sent: " +
-                                                            chats[index][3]
-                                                                .toString(),
-                                                        overflow:
-                                                            TextOverflow.fade,
-                                                        style: new TextStyle(
-                                                          fontSize: 13.0,
-                                                          fontFamily: 'Roboto',
-                                                          color: new Color(
-                                                              0xFF212121),
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                              child: ListTile(
+                                leading: Container(
+                                  height: 100,
+                                  width: 70,
+                                  child: ClipOval(
+                                      child: Material(
+                                          color: Colors.blue,
+                                          child: chats[index][6].toString() !=
+                                                  ''
+                                              ? Image.network(
+                                                  chats[index][6].toString(),
+                                                  fit: BoxFit.fitHeight,
+                                                )
+                                              : Center(
+                                                  child: Container(
+                                                    // padding: const EdgeInsets
+                                                    //         .symmetric(
+                                                    //     horizontal: 36,
+                                                    //     vertical: 26),
+                                                    child: Text(
+                                                        chats[index][5]
+                                                                .toString()[
+                                                            0], //userInfos[0].email[0] ?? '',
+                                                        style: const TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.white)),
+                                                  ),
+                                                ))),
+                                ),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(chats[index][5].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffece0e0),
+                                          border: Border.all(
+                                            color: Color(0xffb6b3b3),
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                // Text('Sent:',
+                                                //     style: TextStyle(
+                                                //       fontSize: 12,
+                                                //       fontWeight:
+                                                //           FontWeight.w700,
+                                                //     )),
+                                                Container(
+                                                  height: 100,
+                                                  width: 200,
+                                                  //child: Flexible(
+                                                  child: new Container(
+                                                    padding:
+                                                        new EdgeInsets.only(
+                                                            right: 13.0),
+                                                    child: new Text(
+                                                      "Sent: " +
+                                                          chats[index][3]
+                                                              .toString(),
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      style: new TextStyle(
+                                                        fontSize: 13.0,
+                                                        fontFamily: 'Roboto',
+                                                        color: new Color(
+                                                            0xFF212121),
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
-                                                    //),
                                                   ),
-                                                ],
-                                              ),
-                                            ]),
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Container(
-                                          width: 240,
-                                          child: Row(
-                                            children: [
-                                              Spacer(),
-                                              Text(chats[index][9].toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color:
-                                                          Color(0xff757575))),
-                                            ],
-                                          ))
-                                    ],
-                                  ),
-                                ],
-                              )),
+                                                  //),
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Container(
+                                        width: 240,
+                                        child: Row(
+                                          children: [
+                                            Spacer(),
+                                            Text(chats[index][9].toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Color(0xff757575))),
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                      // Container(
+                      //     margin: EdgeInsets.symmetric(vertical: 4),
+                      //     padding: EdgeInsets.only(
+                      //         left: 8, right: 8, top: 8, bottom: 8),
+                      //     decoration: BoxDecoration(
+                      //         color: Color(0xfff9f2f2),
+                      //         border: Border.all(
+                      //           color: Color(0xffb6b3b3),
+                      //         ),
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(20))),
+                      //       child: Row(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Column(
+                      //             children: [
+                      //               Container(
+                      //                 height: 80,
+                      //                 width: 80,
+                      //                 child: ClipOval(
+                      //                     child: Material(
+                      //                         color: Colors.blue,
+                      //                         child: chats[index][6]
+                      //                                     .toString() !=
+                      //                                 ''
+                      //                             ? Image.network(
+                      //                                 chats[index][6]
+                      //                                     .toString(),
+                      //                                 fit: BoxFit.fitHeight,
+                      //                               )
+                      //                             : Center(
+                      //                                 child: Container(
+                      //                                   padding:
+                      //                                       const EdgeInsets
+                      //                                               .symmetric(
+                      //                                           horizontal:
+                      //                                               36,
+                      //                                           vertical: 26),
+                      //                                   child: Text(
+                      //                                       chats[index][5]
+                      //                                               .toString()[
+                      //                                           0], //userInfos[0].email[0] ?? '',
+                      //                                       style: const TextStyle(
+                      //                                           fontSize: 15,
+                      //                                           color: Colors
+                      //                                               .white)),
+                      //                                 ),
+                      //                               ))),
+                      //               )
+                      //             ],
+                      //           ),
+                      //           SizedBox(
+                      //             width: 50,
+                      //           ),
+                      //           Column(
+                      //             crossAxisAlignment:
+                      //                 CrossAxisAlignment.start,
+                      //             children: [
+                      //               Text(chats[index][5].toString(),
+                      //                   style: TextStyle(
+                      //                     fontSize: 16,
+                      //                     fontWeight: FontWeight.w700,
+                      //                   )),
+                      //               SizedBox(
+                      //                 height: 4,
+                      //               ),
+                      //               Container(
+                      //                 padding: EdgeInsets.all(4),
+                      //                 decoration: BoxDecoration(
+                      //                     color: Color(0xffece0e0),
+                      //                     border: Border.all(
+                      //                       color: Color(0xffb6b3b3),
+                      //                     ),
+                      //                     borderRadius: BorderRadius.all(
+                      //                         Radius.circular(10))),
+                      //                 child: Column(
+                      //                     crossAxisAlignment:
+                      //                         CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       Row(
+                      //                         children: [
+                      //                           // Text('Sent:',
+                      //                           //     style: TextStyle(
+                      //                           //       fontSize: 12,
+                      //                           //       fontWeight:
+                      //                           //           FontWeight.w700,
+                      //                           //     )),
+                      //                           Container(
+                      //                             height: 100,
+                      //                             width: 200,
+                      //                             //child: Flexible(
+                      //                             child: new Container(
+                      //                               padding:
+                      //                                   new EdgeInsets.only(
+                      //                                       right: 13.0),
+                      //                               child: new Text(
+                      //                                 "Sent: " +
+                      //                                     chats[index][3]
+                      //                                         .toString(),
+                      //                                 overflow:
+                      //                                     TextOverflow.fade,
+                      //                                 style: new TextStyle(
+                      //                                   fontSize: 13.0,
+                      //                                   fontFamily: 'Roboto',
+                      //                                   color: new Color(
+                      //                                       0xFF212121),
+                      //                                   fontWeight:
+                      //                                       FontWeight.bold,
+                      //                                 ),
+                      //                               ),
+                      //                             ),
+                      //                             //),
+                      //                           ),
+                      //                         ],
+                      //                       ),
+                      //                     ]),
+                      //               ),
+                      //               SizedBox(
+                      //                 height: 4,
+                      //               ),
+                      //               Container(
+                      //                   width: 240,
+                      //                   child: Row(
+                      //                     children: [
+                      //                       Spacer(),
+                      //                       Text(chats[index][9].toString(),
+                      //                           style: TextStyle(
+                      //                               fontSize: 12,
+                      //                               fontWeight:
+                      //                                   FontWeight.w700,
+                      //                               color:
+                      //                                   Color(0xff757575))),
+                      //                     ],
+                      //                   ))
+                      //             ],
+                      //           ),
+                      //         ],
+                      //       )),
                     ));
           }),
       // ),

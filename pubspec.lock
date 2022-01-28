@@ -155,6 +155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.6"
+  easy_image_viewer:
+    dependency: "direct main"
+    description:
+      name: easy_image_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   email_validator:
     dependency: "direct main"
     description:
@@ -429,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+  image_viewer:
+    dependency: "direct main"
+    description:
+      name: image_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.0"
   intl:
     dependency: "direct main"
     description:

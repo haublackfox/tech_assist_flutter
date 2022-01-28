@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './client_signin_page.dart';
 import './worker_signin_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,6 +110,19 @@ class _LoginPageState extends State<LoginPage> {
                                 primary: Color(0xfff5970a),
                               )),
                         ),
+                        SizedBox(
+                          height: 32,
+                        ),
+                        InkWell(
+                            onTap: () => _launchInBrowser(
+                                "https://drive.google.com/file/d/1c2Dc8CQo7oWqUOdMne-TqyFOCpkd42Ty/view"),
+                            child: Text(
+                              "TERMS AND AGREEMENT",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ))
                       ],
                     ),
                   ),
@@ -117,5 +131,26 @@ class _LoginPageState extends State<LoginPage> {
             ),
           )),
     );
+  }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await _launchURL(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+Future<void> _launchInBrowser(String url) async {
+  if (await canLaunch(url)) {
+    await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    );
+  } else {
+    throw 'Could not launch $url';
   }
 }

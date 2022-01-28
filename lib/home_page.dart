@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 8,
               ),
-              Text('Application the provide',
+              Text('Application that provide',
                   style: GoogleFonts.tinos(
                       textStyle: TextStyle(
                           letterSpacing: 1.3,
@@ -114,24 +114,24 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 12,
                               //color: Color(0xff41a58d),
                               fontWeight: FontWeight.w600))),
-                  Text('✔ You can pay using E-Money such as',
+                  Text('✔ You can pay manual transaction using',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(
                               fontSize: 12,
                               //color: Color(0xff41a58d),
                               fontWeight: FontWeight.w600))),
-                  Text('(GCASH, PAYMAYA, DEBIT/',
+                  Text('E-Wallet such as (GCASH or PAYMAYA)',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(
                               fontSize: 12,
                               //color: Color(0xff41a58d),
                               fontWeight: FontWeight.w600))),
-                  Text('CREDIT)',
-                      style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 12,
-                              //color: Color(0xff41a58d),
-                              fontWeight: FontWeight.w600))),
+                  //   Text('CREDIT)',
+                  //       style: GoogleFonts.roboto(
+                  //           textStyle: TextStyle(
+                  //               fontSize: 12,
+                  //               //color: Color(0xff41a58d),
+                  //               fontWeight: FontWeight.w600))),
                 ],
               ),
             )

@@ -338,104 +338,115 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
     }
 
     void _submitForm() async {
-      setState(() {
-        _isLoading = true;
-      });
+      if (selectedImage3 != null &&
+          selectedImage4 != null &&
+          selectedImage5 != null) {
+        setState(() {
+          _isLoading = true;
+        });
+        print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+        try {
+          await _auth.createUserWithEmailAndPassword(
+              email: emailCtrl.text, //_emailAddress.toLowerCase().trim(),
+              password: pswCtrl.text);
 
-      try {
-        await _auth.createUserWithEmailAndPassword(
-            email: emailCtrl.text, //_emailAddress.toLowerCase().trim(),
-            password: pswCtrl.text);
+          final User user = _auth.currentUser!;
+          final _uid = user.uid;
+          user.reload();
+          //user.updateProfile(displayName: )
 
-        final User user = _auth.currentUser!;
-        final _uid = user.uid;
-        user.reload();
-        //user.updateProfile(displayName: )
+          var date = DateTime.now().toString();
+          var dateparse = DateTime.parse(date);
+          var formattedDate =
+              "${dateparse.day}-${dateparse.month}-${dateparse.year}";
 
-        var date = DateTime.now().toString();
-        var dateparse = DateTime.parse(date);
-        var formattedDate =
-            "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId + '.jpg');
+          await ref.putFile(selectedImage!);
+          url = await ref.getDownloadURL();
 
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId + '.jpg');
-        await ref.putFile(selectedImage!);
-        url = await ref.getDownloadURL();
+          final ref2 = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId2 + '.jpg');
+          await ref2.putFile(selectedImage2!);
+          url2 = await ref2.getDownloadURL();
 
-        final ref2 = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId2 + '.jpg');
-        await ref2.putFile(selectedImage2!);
-        url2 = await ref2.getDownloadURL();
+          final ref3 = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId3 + '.jpg');
+          await ref3.putFile(selectedImage3!);
+          url3 = await ref3.getDownloadURL();
 
-        final ref3 = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId3 + '.jpg');
-        await ref3.putFile(selectedImage3!);
-        url3 = await ref3.getDownloadURL();
+          final ref4 = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId4 + '.jpg');
+          await ref4.putFile(selectedImage4!);
+          url4 = await ref4.getDownloadURL();
 
-        final ref4 = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId4 + '.jpg');
-        await ref4.putFile(selectedImage4!);
-        url4 = await ref4.getDownloadURL();
+          final ref5 = FirebaseStorage.instance
+              .ref()
+              .child('userDocs')
+              .child(fullnameCtrl.text + validId5 + '.jpg');
+          await ref5.putFile(selectedImage5!);
+          url5 = await ref5.getDownloadURL();
 
-        final ref5 = FirebaseStorage.instance
-            .ref()
-            .child('userDocs')
-            .child(fullnameCtrl.text + validId5 + '.jpg');
-        await ref5.putFile(selectedImage5!);
-        url5 = await ref5.getDownloadURL();
+          DocumentSnapshot doc = await usersRef.doc(_uid).get();
+          if (!doc.exists) {
+            await FirebaseFirestore.instance.collection('users').doc(_uid).set({
+              'id': _uid,
+              'username': nameCtrl.text,
+              'email': emailCtrl.text,
+              'phoneNumber': phoneCtrl.text,
+              'bday': birthdate,
+              'address': addressCtrl.text,
+              'gender': val.toString() == '2' ? 'Female' : 'Male',
+              'fullname': fullnameCtrl.text,
+              'validID': url,
+              'validID2': url2,
+              'validID3': url3,
+              'validID4': url4,
+              'validID5': url5,
+              'joinedAt': formattedDate,
+              //'createdAt': Timestamp.now(),
+              'isClient': "false",
+              'jobdescription': jobCtrl.text.toLowerCase(),
+              'jobexperience': "",
+              'imageurl': "",
+              'status': "Not verified"
+            });
+          }
 
-        DocumentSnapshot doc = await usersRef.doc(_uid).get();
-        if (!doc.exists) {
-          await FirebaseFirestore.instance.collection('users').doc(_uid).set({
-            'id': _uid,
-            'username': nameCtrl.text,
-            'email': emailCtrl.text,
-            'phoneNumber': phoneCtrl.text,
-            'bday': birthdate,
-            'address': addressCtrl.text,
-            'gender': val.toString() == '2' ? 'Female' : 'Male',
-            'fullname': fullnameCtrl.text,
-            'validID': url,
-            'validID2': url2,
-            'validID3': url3,
-            'validID4': url4,
-            'validID5': url5,
-            'joinedAt': formattedDate,
-            //'createdAt': Timestamp.now(),
-            'isClient': "false",
-            'jobdescription': jobCtrl.text.toLowerCase(),
-            'jobexperience': "",
-            'imageurl': "",
-            'status': "Not verified"
+          // REUSE FOR SIGNING UP
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } catch (error) {
+          //_globalMethods.authErrorHandle(error.message, context);
+          print('error occured ${error.toString()}');
+
+          showSnackBar(
+              context,
+              "Required Documents missing, please fill up the details properly",
+              Colors.red,
+              5000);
+        } finally {
+          setState(() {
+            _isLoading = false;
           });
         }
-
-        // REUSE FOR SIGNING UP
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      } catch (error) {
-        //_globalMethods.authErrorHandle(error.message, context);
-        print('error occured ${error.toString()}');
-
+      } else {
         showSnackBar(
             context,
-            "Required Documents missing, please fill up the details properly",
+            "Please input all required fields first, in order to Register.",
             Colors.red,
-            5000);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+            3000);
+        print("NOOOOOOO");
       }
     }
     //_formKey.currentState!.save();
@@ -650,8 +661,8 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
                       validator: (phone) {
                         if (phone == null || phone.isEmpty) {
                           return 'The phone number must be provided.';
-                        } else if (phone.length < 11) {
-                          return 'The phone number must be valid.';
+                        } else if (phone.length < 11 || phone.length > 11) {
+                          return 'The phone number must be 11 digits.';
                         }
                       },
                     ),
@@ -933,7 +944,7 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: DropdownButton<String>(
                         underline: SizedBox(),
-                        hint: Text(validId != ''
+                        hint: Text(validId != '1'
                             ? "   $validId"
                             : "   Select your Valid ID's"),
                         items: <String>[
@@ -995,6 +1006,10 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
                                 Text(
                                   "CLICK TO UPLOAD",
                                   style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  "(FRONT)",
+                                  style: TextStyle(fontWeight: FontWeight.w700),
                                 )
                               ]))
                             : Image.file(
@@ -1031,6 +1046,10 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
                                 ),
                                 Text(
                                   "CLICK TO UPLOAD",
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  "(BACK)",
                                   style: TextStyle(fontWeight: FontWeight.w700),
                                 )
                               ]))
@@ -1137,8 +1156,27 @@ class _WorkerSignUpPageState extends State<WorkerSignUpPage> {
                     height: 36,
                     child: ElevatedButton(
                         onPressed: () async {
+                          if (selectedImage != null &&
+                              selectedImage2 != null &&
+                              fullnameCtrl.text.isNotEmpty &&
+                              validId != "1" &&
+                              jobCtrl.text.isNotEmpty) {
+                            setState(() {
+                              _isLoading = false;
+                            });
+
+                            initialPage = 2;
+                          } else {
+                            showSnackBar(
+                                context,
+                                "Please input all required fields first, in order to Continue.",
+                                Colors.red,
+                                3000);
+                            print("NOOOOOOO");
+                          }
+
                           // if (_formKey.currentState!.validate()) {
-                          initialPage = 2;
+
                           //   } else {
                           //     print('the login form is not valid');
                           //   }

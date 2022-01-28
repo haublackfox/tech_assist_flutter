@@ -147,9 +147,17 @@ class _PaymentCardsState extends State<PaymentCards> {
     return initialPage == 0
         ? Center(
             child: Container(
+                //      decoration: BoxDecoration(
+                // image: DecorationImage(
+                //     image: NetworkImage(
+                //         "https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"),
+                //     fit: BoxFit.cover)),
                 height: 450,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/bg2.png"),
+                        fit: BoxFit.cover),
                     color: Color(0xfff9f2f2),
                     border: Border.all(
                       color: Color(0xffb6b3b3),
@@ -250,6 +258,15 @@ class _PaymentCardsState extends State<PaymentCards> {
           )
         : initialPage == 1
             ? Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/bg2.png"),
+                        fit: BoxFit.cover),
+                    color: Color(0xfff9f2f2),
+                    border: Border.all(
+                      color: Color(0xffb6b3b3),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 padding: EdgeInsets.only(left: 8, bottom: 30),
                 child: Column(
                   //mainAxisSize: MainAxisSize.min,
@@ -453,6 +470,15 @@ class _PaymentCardsState extends State<PaymentCards> {
               )
             : initialPage == 2
                 ? Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/bg2.png"),
+                            fit: BoxFit.cover),
+                        color: Color(0xfff9f2f2),
+                        border: Border.all(
+                          color: Color(0xffb6b3b3),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     padding: EdgeInsets.only(left: 8, bottom: 30),
                     child: Column(
                       //mainAxisSize: MainAxisSize.min,
@@ -624,7 +650,7 @@ class _PaymentCardsState extends State<PaymentCards> {
 
                                     var message2 = 'Hey ' +
                                         senderName +
-                                        ' we received your payment for your service worker. Please type/TechAssist Okay if the contract is done.';
+                                        ' we received your payment for your service worker.';
 
                                     var message3 = rcvName +
                                         ' we will give you your salary after you finish your contract. We will deduct 8% of your salary and it will go to the TechAssist';
@@ -654,6 +680,16 @@ class _PaymentCardsState extends State<PaymentCards> {
                   )
                 : initialPage == 3
                     ? Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/bg2.png"),
+                                fit: BoxFit.cover),
+                            color: Color(0xfff9f2f2),
+                            border: Border.all(
+                              color: Color(0xffb6b3b3),
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         padding: EdgeInsets.only(left: 8, bottom: 30),
                         child: Column(
                           //mainAxisSize: MainAxisSize.min,
@@ -722,6 +758,16 @@ class _PaymentCardsState extends State<PaymentCards> {
                       )
                     : initialPage == 4
                         ? Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("assets/images/bg2.png"),
+                                    fit: BoxFit.cover),
+                                color: Color(0xfff9f2f2),
+                                border: Border.all(
+                                  color: Color(0xffb6b3b3),
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             padding: EdgeInsets.only(left: 8, bottom: 30),
                             child: Column(
                               //mainAxisSize: MainAxisSize.min,
@@ -898,34 +944,34 @@ class _PaymentCardsState extends State<PaymentCards> {
                                               setState(() {
                                                 initialPage = 5;
                                               });
-                                              final paymentId = uuid.v4();
-                                              await FirebaseFirestore.instance
-                                                  .collection('payment')
-                                                  .doc(paymentId)
-                                                  .set({
-                                                'id': paymentId,
-                                                'date':
-                                                    DateTime.now().toString(),
-                                                'paymentMethod': paymentMethod,
-                                                'phone': PaymayaNo,
-                                                'from': senderName,
-                                                'to': rcvName,
-                                                'amount': Amount,
-                                                'message': '',
-                                                'payment_status': 'PROCESS'
-                                              });
+                                              //   final paymentId = uuid.v4();
+                                              //   await FirebaseFirestore.instance
+                                              //       .collection('payment')
+                                              //       .doc(paymentId)
+                                              //       .set({
+                                              //     'id': paymentId,
+                                              //     'date':
+                                              //         DateTime.now().toString(),
+                                              //     'paymentMethod': paymentMethod,
+                                              //     'phone': PaymayaNo,
+                                              //     'from': senderName,
+                                              //     'to': rcvName,
+                                              //     'amount': Amount,
+                                              //     'message': '',
+                                              //     'payment_status': 'PROCESS'
+                                              //   });
 
-                                              var message2 = 'Hey ' +
-                                                  senderName +
-                                                  ' we received your payment for your service worker. Please type/TechAssist Okay if the contract is done.';
+                                              //   var message2 = 'Hey ' +
+                                              //       senderName +
+                                              //       ' we received your payment for your service worker. Please type/TechAssist Okay if the contract is done.';
 
-                                              var message3 = rcvName +
-                                                  ' we will give you your salary after you finish your contract. We will deduct 8% of your salary and it will go to the TechAssist';
+                                              //   var message3 = rcvName +
+                                              //       ' we will give you your salary after you finish your contract. We will deduct 8% of your salary and it will go to the TechAssist';
 
-                                              onSendMessage(message2, 2);
-                                              print(message2);
-                                              onSendMessage(message3, 2);
-                                              print(message3);
+                                              //   onSendMessage(message2, 2);
+                                              //   print(message2);
+                                              //   onSendMessage(message3, 2);
+                                              //   print(message3);
                                             }
                                             //if (paymentMethod == "GCASH") {
 
@@ -952,311 +998,582 @@ class _PaymentCardsState extends State<PaymentCards> {
                           )
                         : initialPage == 5
                             ? Container(
-                                height: 450,
-                                width: double.infinity,
                                 decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image:
+                                            AssetImage("assets/images/bg2.png"),
+                                        fit: BoxFit.cover),
                                     color: Color(0xfff9f2f2),
                                     border: Border.all(
                                       color: Color(0xffb6b3b3),
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: 8, bottom: 30),
-                                        child: Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            //mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              SizedBox(
-                                                height: 6,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 86,
-                                                  ),
-                                                  Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.green[400],
-                                                  ),
-                                                  Text(
-                                                    "Send Money Successfully!",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                              Center(
-                                                child: Text(
-                                                  "Money Transfer Recipients",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12.0,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              Divider(
-                                                thickness: 1,
-                                                color: Colors.grey[700],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "RECIPIENTS:",
-                                                    style: TextStyle(
-                                                        color: Colors.grey[800],
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    "            " +
-                                                        TechAssistNo,
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "ACCOUNT TYPE:",
-                                                    style: TextStyle(
-                                                        color: Colors.grey[800],
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    "            PAYMAYA",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "AMOUNT:",
-                                                    style: TextStyle(
-                                                        color: Colors.grey[800],
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    "            PHP " + Amount,
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  //   Text(
-                                                  //     "MESSAGE:",
-                                                  //     style: TextStyle(
-                                                  //         color: Colors.grey[800],
-                                                  //         fontSize: 12.0,
-                                                  //         fontWeight:
-                                                  //             FontWeight.w500),
-                                                  //   ),
-                                                  //   Text(
-                                                  //     "            MESSAGE OF CLIENT",
-                                                  //     style: TextStyle(
-                                                  //         color: Colors.black,
-                                                  //         fontSize: 14.0,
-                                                  //         fontWeight:
-                                                  //             FontWeight.w700),
-                                                  //   ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 16,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  //   Container(
-                                                  //     width: 110,
-                                                  //     height: 36,
-                                                  //     child: ElevatedButton(
-                                                  //         onPressed: () {
-                                                  //           //   Navigator.push(
-                                                  //           //     context,
-                                                  //           //     MaterialPageRoute(
-                                                  //           //         builder: (context) => BottomBarScreen()),
-                                                  //           //   );
-                                                  //         },
-                                                  //         child: Text("BACK",
-                                                  //             style: GoogleFonts.roboto(
-                                                  //                 letterSpacing:
-                                                  //                     2,
-                                                  //                 fontSize: 16,
-                                                  //                 color: Colors
-                                                  //                     .white,
-                                                  //                 fontWeight:
-                                                  //                     FontWeight
-                                                  //                         .w700)),
-                                                  //         style: ElevatedButton
-                                                  //             .styleFrom(
-                                                  //           side: BorderSide(
-                                                  //               width: 1.0,
-                                                  //               color: Colors
-                                                  //                   .grey[800]!),
-                                                  //           shape:
-                                                  //               StadiumBorder(),
-                                                  //           primary:
-                                                  //               Color(0xfff5970a),
-                                                  //         )),
-                                                  //   ),
-                                                  //   SizedBox(width: 32),
-                                                  Container(
-                                                    width: 110,
-                                                    height: 36,
-                                                    child: ElevatedButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            initialPage = 6;
-                                                          });
-                                                        },
-                                                        child: Text("OKAY",
-                                                            style: GoogleFonts.roboto(
-                                                                letterSpacing:
-                                                                    2,
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700)),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          side: BorderSide(
-                                                              width: 1.0,
-                                                              color: Colors
-                                                                  .grey[800]!),
-                                                          shape:
-                                                              StadiumBorder(),
-                                                          primary:
-                                                              Color(0xfff5970a),
-                                                        )),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                padding: EdgeInsets.only(left: 8, bottom: 30),
+                                child: Column(
+                                  //mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 12,
+                                    ),
+                                    Container(
+                                      height: 60,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Color(0xffb6b3b3),
                                           ),
-                                        ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: Image.asset(
+                                        "assets/images/logo.png",
+                                        scale: 4,
                                       ),
-                                      SizedBox(
-                                        height: 8,
-                                      )
-                                    ],
-                                  ),
-                                ))
-                            : initialPage == 6
-                                ? Container(
-                                    padding:
-                                        EdgeInsets.only(left: 8, bottom: 30),
-                                    child: Column(
-                                      //mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 80,
-                                        ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "From",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Center(
+                                      child: Container(
+                                          color: Colors.white,
+                                          //   height: 30,
+                                          //   width: 165,
+                                          child: Text(senderName)),
+                                    ),
+                                    SizedBox(
+                                      height: 12,
+                                    ),
+                                    Text(
+                                      "To",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Center(
+                                      child: Container(
+                                          color: Colors.white,
+                                          //   height: 30,
+                                          //   width: 165,
+                                          child: Text(rcvName)),
+                                    ),
+                                    SizedBox(
+                                      height: 12,
+                                    ),
+                                    Text(
+                                      "NOTE DESCRIPTION",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      height: 60,
+                                      width: 165,
+                                      child: TextField(
+                                        maxLines: 3,
+                                        minLines: 3,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            height: 1.5,
+                                            fontWeight: FontWeight.w700),
+                                        //controller: _controller,
+                                        cursorColor: Colors.greenAccent,
+                                        decoration: InputDecoration(
+                                            hintText: "OPTIONAL",
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 0,
+                                                    horizontal: 15),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0))),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            description = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
                                         Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 12),
-                                          child: Text(
-                                            "Your payment is in process. Please wait for the update of our Admin. We will send you the confirmation of your payment in your message conversation together with your service worker.",
-                                            overflow: TextOverflow.fade,
-                                            style: new TextStyle(
-                                              fontSize: 13.0,
-                                              fontFamily: 'Roboto',
-                                              color: new Color(0xFF212121),
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          height: 150,
-                                          width: 300,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: Color(0xffb6b3b3),
-                                              ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30))),
+                                          width: 110,
+                                          height: 36,
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  initialPage = 4;
+                                                });
+                                              },
+                                              child: Text("BACK",
+                                                  style: GoogleFonts.roboto(
+                                                      letterSpacing: 2,
+                                                      fontSize: 16,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(
+                                                    width: 1.0,
+                                                    color: Colors.grey[800]!),
+                                                shape: StadiumBorder(),
+                                                primary: Color(0xfff5970a),
+                                              )),
                                         ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: 130,
-                                              height: 36,
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    // setState(() {
-                                                    //   initialPage = 3;
-                                                    // });
+                                        SizedBox(width: 32),
+                                        Container(
+                                          width: 110,
+                                          height: 36,
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                setState(() {
+                                                  //GCASH FIREBASE
+                                                  initialPage = 6;
+                                                });
+                                                var message =
+                                                    "Received: You have received PHP " +
+                                                        Amount +
+                                                        " of " +
+                                                        paymentMethod +
+                                                        " from " +
+                                                        senderName +
+                                                        " " +
+                                                        PaymayaNo +
+                                                        " on " +
+                                                        DateTime.now()
+                                                            .toString() +
+                                                        " with message: " +
+                                                        description;
+                                                final paymentId = uuid.v4();
+                                                print(message);
+                                                await FirebaseFirestore.instance
+                                                    .collection('payment')
+                                                    .doc(paymentId)
+                                                    .set({
+                                                  'id': paymentId,
+                                                  'date':
+                                                      DateTime.now().toString(),
+                                                  'paymentMethod':
+                                                      paymentMethod,
+                                                  'phone': PaymayaNo,
+                                                  'from': senderName,
+                                                  'to': rcvName,
+                                                  'amount': Amount,
+                                                  'message': message,
+                                                  'payment_status': 'PROCESS'
+                                                });
 
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text("CONTINUE",
-                                                      style: GoogleFonts.roboto(
-                                                          letterSpacing: 2,
-                                                          fontSize: 16,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w700)),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    side: BorderSide(
-                                                        width: 1.0,
-                                                        color:
-                                                            Colors.grey[800]!),
-                                                    shape: StadiumBorder(),
-                                                    primary: Color(0xfff5970a),
-                                                  )),
-                                            ),
-                                          ],
+                                                var message2 = 'Hey ' +
+                                                    senderName +
+                                                    ' we received your payment for your service worker. Please type/TechAssist Okay if the contract is done.';
+
+                                                var message3 = rcvName +
+                                                    ' we will give you your salary after you finish your contract. We will deduct 8% of your salary and it will go to the TechAssist';
+
+                                                onSendMessage(message2, 2);
+                                                print(message2);
+                                                onSendMessage(message3, 2);
+                                                print(message3);
+                                              },
+                                              child: Text("NEXT",
+                                                  style: GoogleFonts.roboto(
+                                                      letterSpacing: 2,
+                                                      fontSize: 16,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                              style: ElevatedButton.styleFrom(
+                                                side: BorderSide(
+                                                    width: 1.0,
+                                                    color: Colors.grey[800]!),
+                                                shape: StadiumBorder(),
+                                                primary: Color(0xfff5970a),
+                                              )),
                                         ),
                                       ],
                                     ),
-                                  )
-                                : Container();
+                                  ],
+                                ),
+                              )
+                            : initialPage == 6
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/bg2.png"),
+                                            fit: BoxFit.cover),
+                                        color: Color(0xfff9f2f2),
+                                        border: Border.all(
+                                          color: Color(0xffb6b3b3),
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    height: 450,
+                                    width: double.infinity,
+                                    // decoration: BoxDecoration(
+                                    //     color: Color(0xfff9f2f2),
+                                    //     border: Border.all(
+                                    //       color: Color(0xffb6b3b3),
+                                    //     ),
+                                    //     borderRadius: BorderRadius.all(
+                                    //         Radius.circular(10))),
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: 8, bottom: 30),
+                                            child: Container(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                //mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    height: 6,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 86,
+                                                      ),
+                                                      Icon(
+                                                        Icons.check_circle,
+                                                        color:
+                                                            Colors.green[400],
+                                                      ),
+                                                      Text(
+                                                        "Send Money Successfully!",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Center(
+                                                    child: Text(
+                                                      "Money Transfer Recipients",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12.0,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "RECIPIENTS:",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[800],
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        "            " +
+                                                            TechAssistNo,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "ACCOUNT TYPE:",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[800],
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        "            PAYMAYA",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "AMOUNT:",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[800],
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        "            PHP " +
+                                                            Amount,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      //   Text(
+                                                      //     "MESSAGE:",
+                                                      //     style: TextStyle(
+                                                      //         color: Colors.grey[800],
+                                                      //         fontSize: 12.0,
+                                                      //         fontWeight:
+                                                      //             FontWeight.w500),
+                                                      //   ),
+                                                      //   Text(
+                                                      //     "            MESSAGE OF CLIENT",
+                                                      //     style: TextStyle(
+                                                      //         color: Colors.black,
+                                                      //         fontSize: 14.0,
+                                                      //         fontWeight:
+                                                      //             FontWeight.w700),
+                                                      //   ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 16,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      //   Container(
+                                                      //     width: 110,
+                                                      //     height: 36,
+                                                      //     child: ElevatedButton(
+                                                      //         onPressed: () {
+                                                      //           //   Navigator.push(
+                                                      //           //     context,
+                                                      //           //     MaterialPageRoute(
+                                                      //           //         builder: (context) => BottomBarScreen()),
+                                                      //           //   );
+                                                      //         },
+                                                      //         child: Text("BACK",
+                                                      //             style: GoogleFonts.roboto(
+                                                      //                 letterSpacing:
+                                                      //                     2,
+                                                      //                 fontSize: 16,
+                                                      //                 color: Colors
+                                                      //                     .white,
+                                                      //                 fontWeight:
+                                                      //                     FontWeight
+                                                      //                         .w700)),
+                                                      //         style: ElevatedButton
+                                                      //             .styleFrom(
+                                                      //           side: BorderSide(
+                                                      //               width: 1.0,
+                                                      //               color: Colors
+                                                      //                   .grey[800]!),
+                                                      //           shape:
+                                                      //               StadiumBorder(),
+                                                      //           primary:
+                                                      //               Color(0xfff5970a),
+                                                      //         )),
+                                                      //   ),
+                                                      //   SizedBox(width: 32),
+                                                      Container(
+                                                        width: 110,
+                                                        height: 36,
+                                                        child: ElevatedButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                initialPage = 7;
+                                                              });
+                                                            },
+                                                            child: Text("OKAY",
+                                                                style: GoogleFonts.roboto(
+                                                                    letterSpacing:
+                                                                        2,
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700)),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              side: BorderSide(
+                                                                  width: 1.0,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800]!),
+                                                              shape:
+                                                                  StadiumBorder(),
+                                                              primary: Color(
+                                                                  0xfff5970a),
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          )
+                                        ],
+                                      ),
+                                    ))
+                                : initialPage == 7
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/bg2.png"),
+                                                fit: BoxFit.cover),
+                                            color: Color(0xfff9f2f2),
+                                            border: Border.all(
+                                              color: Color(0xffb6b3b3),
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        padding: EdgeInsets.only(
+                                            left: 8, bottom: 30),
+                                        child: Column(
+                                          //mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              height: 80,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 12),
+                                              child: Text(
+                                                "Your payment is in process. Please wait for the update of our Admin. We will send you the confirmation of your payment in your message conversation together with your service worker.",
+                                                overflow: TextOverflow.fade,
+                                                style: new TextStyle(
+                                                  fontSize: 13.0,
+                                                  fontFamily: 'Roboto',
+                                                  color: new Color(0xFF212121),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              height: 150,
+                                              width: 300,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Color(0xffb6b3b3),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30))),
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  width: 130,
+                                                  height: 36,
+                                                  child: ElevatedButton(
+                                                      onPressed: () {
+                                                        // setState(() {
+                                                        //   initialPage = 3;
+                                                        // });
+
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("CONTINUE",
+                                                          style: GoogleFonts
+                                                              .roboto(
+                                                                  letterSpacing:
+                                                                      2,
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700)),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey[800]!),
+                                                        shape: StadiumBorder(),
+                                                        primary:
+                                                            Color(0xfff5970a),
+                                                      )),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container();
   }
 }

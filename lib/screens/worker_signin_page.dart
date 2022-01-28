@@ -32,7 +32,7 @@ class _WorkerSignInPageState extends State<WorkerSignInPage> {
       await _auth
           .signInWithEmailAndPassword(
               email: emailCtrl.text, password: pswCtrl.text)
-          .then((value) => Navigator.push(
+          .then((value) => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => HomeScreen()),
               ));

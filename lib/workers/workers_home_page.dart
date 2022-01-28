@@ -42,7 +42,7 @@ class _WorkersHomePageState extends State<WorkersHomePage> {
               SizedBox(
                 height: 8,
               ),
-              Text('Application the provide',
+              Text('Application that provide',
                   style: GoogleFonts.tinos(
                       textStyle: TextStyle(
                           letterSpacing: 1.3,

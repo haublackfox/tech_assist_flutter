@@ -106,136 +106,139 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: Stack(
-        children: <Widget>[
-          Image.asset(
-            "assets/images/bg4.png",
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.fill,
-          ),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
+            body: Stack(
+          children: <Widget>[
+            Image.asset(
+              "assets/images/bg4.png",
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.fill,
+            ),
+            Scaffold(
               backgroundColor: Colors.transparent,
-              elevation: 0.0,
-            ),
-            body: Container(
-              width: double.infinity,
-
-              // padding: EdgeInsets.symmetric(horizontal: 70),
-              // child: SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.only(top: 30),
-                height: 800,
-                color: Colors.white.withAlpha(200),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 40,
-                        color: Color(0xfff9f0f0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    initialPage = 0;
-                                  });
-                                },
-                                child: Text(
-                                  "HOME",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                    decoration: initialPage == 0
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                    decorationThickness: 4,
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    initialPage = 1;
-                                  });
-                                },
-                                child: Text(
-                                  _isClient == "false"
-                                      ? "WITHDRAWAL"
-                                      : "SERVICES",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                    decoration: initialPage == 1
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                    decorationThickness: 4,
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    initialPage = 2;
-                                  });
-                                },
-                                child: Text(
-                                  "MESSAGE",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                    decoration: initialPage == 2
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                    decorationThickness: 4,
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    initialPage = 3;
-                                  });
-                                },
-                                child: Text(
-                                  "SETTINGS",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                    decoration: initialPage == 3
-                                        ? TextDecoration.underline
-                                        : TextDecoration.none,
-                                    decorationThickness: 4,
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 6,
-                            )
-                          ],
-                        ),
-                      ),
-                      _isClient == "false"
-                          ? pageList2[initialPage]
-                          : pageList[initialPage]
-                      //  : pageList2[initialPage]
-                    ]),
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
               ),
-              // ),
-            ),
-          )
-        ],
-      )),
+              body: Container(
+                width: double.infinity,
+
+                // padding: EdgeInsets.symmetric(horizontal: 70),
+                // child: SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.only(top: 30),
+                  height: 800,
+                  color: Colors.white.withAlpha(200),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 40,
+                          color: Color(0xfff9f0f0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      initialPage = 0;
+                                    });
+                                  },
+                                  child: Text(
+                                    "HOME",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      decoration: initialPage == 0
+                                          ? TextDecoration.underline
+                                          : TextDecoration.none,
+                                      decorationThickness: 4,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      initialPage = 1;
+                                    });
+                                  },
+                                  child: Text(
+                                    _isClient == "false"
+                                        ? "WITHDRAWAL"
+                                        : "SERVICES",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      decoration: initialPage == 1
+                                          ? TextDecoration.underline
+                                          : TextDecoration.none,
+                                      decorationThickness: 4,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      initialPage = 2;
+                                    });
+                                  },
+                                  child: Text(
+                                    "MESSAGE",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      decoration: initialPage == 2
+                                          ? TextDecoration.underline
+                                          : TextDecoration.none,
+                                      decorationThickness: 4,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      initialPage = 3;
+                                    });
+                                  },
+                                  child: Text(
+                                    "SETTINGS",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      decoration: initialPage == 3
+                                          ? TextDecoration.underline
+                                          : TextDecoration.none,
+                                      decorationThickness: 4,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 6,
+                              )
+                            ],
+                          ),
+                        ),
+                        _isClient == "false"
+                            ? pageList2[initialPage]
+                            : pageList[initialPage]
+                        //  : pageList2[initialPage]
+                      ]),
+                ),
+                // ),
+              ),
+            )
+          ],
+        )),
+      ),
     );
   }
 }

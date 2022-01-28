@@ -60,7 +60,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
       }
     });
     Future<QuerySnapshot> querySnapshot = _collectionUsers
-        .where("jobdescription", isGreaterThanOrEqualTo: userName)
+        .where("jobdescription", isGreaterThanOrEqualTo: userName.toLowerCase())
         .get();
 
     setState(() {
@@ -81,112 +81,115 @@ class _ServiceScreenState extends State<ServiceScreen> {
             return Scrollbar(
               thickness: 10,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey
+                  height: 400,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey
 
-                      //color: Colors.red[500],
-                      ),
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                // color: Colors.white,
-                child: Column(
-                    children: documents
-                        .map((doc) => Card(
-                              child: Column(children: [
-                                ListTile(
-                                  leading: ClipOval(
-                                      child: Material(
-                                          color: Colors.blue,
-                                          child: doc["imageurl"] != ''
-                                              ? Container(
-                                                  width: 50,
-                                                  child: Image.network(
-                                                    doc["imageurl"],
-                                                    fit: BoxFit.fitHeight,
-                                                  ),
-                                                )
-                                              : Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  //   padding: const EdgeInsets
-                                                  //           .symmetric(
-                                                  //       horizontal: 36,
-                                                  //       vertical: 26),
-                                                  child: Center(
-                                                    child: Text(
-                                                        doc['fullname'][
-                                                            0], //userInfos[0].email[0] ?? '',
-                                                        style: const TextStyle(
-                                                            fontSize: 18,
-                                                            color:
-                                                                Colors.white)),
-                                                  ),
-                                                ))),
-                                  title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text("Name:"),
-                                            Text(doc['fullname']),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text("Job Service:"),
-                                            Text(doc['jobdescription']),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text("Contacts:"),
-                                            Text(doc['phoneNumber']),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text("Experience:"),
-                                            Text(doc['jobexperience'])
-                                          ],
-                                        ),
-                                      ]),
-                                ),
-                                Container(
-                                  width: 130,
-                                  height: 32,
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChattingPage(
-                                                      receiverId: doc["id"],
-                                                      receiverName:
-                                                          doc["fullname"],
-                                                    )));
-                                      },
-                                      child: Text("MESSAGE ME",
-                                          style: GoogleFonts.roboto(
-                                              letterSpacing: 2,
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700)),
-                                      style: ElevatedButton.styleFrom(
-                                        side: BorderSide(
-                                            width: 1.0,
-                                            color: Color(0xfffafafa)),
-                                        shape: StadiumBorder(),
-                                        primary: Color(0xfff5970a),
-                                      )),
-                                ),
-                              ]),
-                            ))
-                        .toList()),
-              ),
+                        //color: Colors.red[500],
+                        ),
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  // color: Colors.white,
+                  child: ListView.builder(
+                      itemCount: documents.length,
+                      itemBuilder: (context, index) => Card(
+                            child: Column(children: [
+                              ListTile(
+                                leading: ClipOval(
+                                    child: Material(
+                                        color: Colors.blue,
+                                        child: documents[index]["imageurl"] !=
+                                                ''
+                                            ? Container(
+                                                width: 50,
+                                                child: Image.network(
+                                                  documents[index]["imageurl"],
+                                                  fit: BoxFit.fitHeight,
+                                                ),
+                                              )
+                                            : Container(
+                                                height: 50,
+                                                width: 50,
+                                                //   padding: const EdgeInsets
+                                                //           .symmetric(
+                                                //       horizontal: 36,
+                                                //       vertical: 26),
+                                                child: Center(
+                                                  child: Text(
+                                                      documents[index]
+                                                              ['fullname'][
+                                                          0], //userInfos[0].email[0] ?? '',
+                                                      style: const TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.white)),
+                                                ),
+                                              ))),
+                                title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text("Name:"),
+                                          Text(documents[index]['fullname']),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Job Service:"),
+                                          Text(documents[index]
+                                              ['jobdescription']),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Contacts:"),
+                                          Text(documents[index]['phoneNumber']),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Experience:"),
+                                          Text(
+                                              documents[index]['jobexperience'])
+                                        ],
+                                      ),
+                                    ]),
+                              ),
+                              Container(
+                                //width: 130,
+                                height: 32,
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChattingPage(
+                                                    receiverId: documents[index]
+                                                        ["id"],
+                                                    receiverName:
+                                                        documents[index]
+                                                            ["fullname"],
+                                                  )));
+                                    },
+                                    child: Text("MESSAGE ME",
+                                        style: GoogleFonts.roboto(
+                                            letterSpacing: 2,
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700)),
+                                    style: ElevatedButton.styleFrom(
+                                      side: BorderSide(
+                                          width: 1.0, color: Color(0xfffafafa)),
+                                      shape: StadiumBorder(),
+                                      primary: Color(0xfff5970a),
+                                    )),
+                              ),
+                            ]),
+                          ))),
             );
           } else if (dataSnapshot.hasError) {
             return const Center(child: const Text("No Results found"));
@@ -248,30 +251,33 @@ class _ServiceScreenState extends State<ServiceScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                Text("TechAssist",
+                Text('TechAssist',
                     style: GoogleFonts.tinos(
-                        letterSpacing: 2,
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600)),
-                Text("At TechAssist you will find a",
+                        textStyle: TextStyle(
+                            letterSpacing: 1.3,
+                            fontSize: 20,
+                            //color: Color(0xff41a58d),
+                            fontWeight: FontWeight.w500))),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('At TechAssist we provide skilled',
                     style: GoogleFonts.tinos(
-                        letterSpacing: 2,
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600)),
-                Text("Service Worker who is good and",
+                        textStyle: TextStyle(
+                            letterSpacing: 1.3,
+                            fontSize: 20,
+                            //color: Color(0xff41a58d),
+                            fontWeight: FontWeight.w500))),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('worker and high quality services',
                     style: GoogleFonts.tinos(
-                        letterSpacing: 2,
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600)),
-                Text("quality when it comes to service",
-                    style: GoogleFonts.tinos(
-                        letterSpacing: 2,
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600)),
+                        textStyle: TextStyle(
+                            letterSpacing: 1.3,
+                            fontSize: 20,
+                            //color: Color(0xff41a58d),
+                            fontWeight: FontWeight.w500))),
                 SizedBox(
                   height: 12,
                 ),
@@ -292,111 +298,207 @@ class _ServiceScreenState extends State<ServiceScreen> {
                         ),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xffdfd1d1).withAlpha(150),
-                          border: Border.all(
+                  child: ListTile(
+                    title: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffdfd1d1).withAlpha(150),
+                        border: Border.all(
 
-                              //color: Colors.red[500],
-                              ),
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                        height: 30,
-                        width: 260,
-                        child: TextField(
-                          autofocus: true,
-                          controller: _postTextController,
-                          style: TextStyle(
-                              fontSize: 14,
-                              height: 1.5,
-                              fontWeight: FontWeight.w700),
-                          //controller: _controller,
-                          cursorColor: Colors.greenAccent,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(30.0),
+                            //color: Colors.red[500],
                             ),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 15),
-                            hintText: "Post what you're looking for",
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      height: 30,
+                      width: 260,
+                      child: TextField(
+                        autofocus: true,
+                        controller: _postTextController,
+                        style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            fontWeight: FontWeight.w700),
+                        //controller: _controller,
+                        cursorColor: Colors.greenAccent,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              message = value;
-                            });
-                          },
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                          hintText: "Post what you're looking for",
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            message = value;
+                          });
+                        },
                       ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Container(
-                        width: 90,
-                        height: 32,
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              print(user.uid);
-                              print("MMMMMMMMMMMMM");
-                              final senderData = await FirebaseFirestore
-                                  .instance
-                                  .collection('users')
-                                  .doc(user.uid)
-                                  .get();
+                    ),
+                    trailing: Container(
+                      width: 90,
+                      height: 32,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            print(user.uid);
+                            print("MMMMMMMMMMMMM");
+                            final senderData = await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user.uid)
+                                .get();
 
-                              print("MMMMMMMMMMMMM");
-                              print(senderData.data());
-                              print("MMMMMMMMMMMMM");
+                            print("MMMMMMMMMMMMM");
+                            print(senderData.data());
+                            print("MMMMMMMMMMMMM");
 
-                              print("MMMMMMMMMMMMM");
-                              print(senderData['fullname']);
-                              print("MMMMMMMMMMMMM");
-                              final postId = uuid.v4();
-                              //   DocumentSnapshot doc =
-                              //       await postsRef.doc(user.uid).get();
-                              //   if (!doc.exists) {
-                              await FirebaseFirestore.instance
-                                  .collection('posts')
-                                  .doc(postId)
-                                  .set({
-                                'id': postId,
-                                'poster_id': user.uid,
-                                'name': senderData['fullname'],
-                                'imageurl': senderData['imageurl'],
-                                'msg': message,
+                            print("MMMMMMMMMMMMM");
+                            print(senderData['fullname']);
+                            print("MMMMMMMMMMMMM");
+                            final postId = uuid.v4();
+                            //   DocumentSnapshot doc =
+                            //       await postsRef.doc(user.uid).get();
+                            //   if (!doc.exists) {
+                            await FirebaseFirestore.instance
+                                .collection('posts')
+                                .doc(postId)
+                                .set({
+                              'id': postId,
+                              'poster_id': user.uid,
+                              'name': senderData['fullname'],
+                              'imageurl': senderData['imageurl'],
+                              'msg': message,
 
-                                'timePosted': DateFormat("MM/dd/yyyy")
-                                        .format(DateTime.now()) +
-                                    " " +
-                                    DateFormat("hh:mm:ss a").format(
-                                        DateTime.now()), //DateTime.now(),
-                                "timestamp": DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString(),
-                              });
+                              'timePosted': DateFormat("MM/dd/yyyy")
+                                      .format(DateTime.now()) +
+                                  " " +
+                                  DateFormat("hh:mm:ss a")
+                                      .format(DateTime.now()), //DateTime.now(),
+                              "timestamp": DateTime.now()
+                                  .millisecondsSinceEpoch
+                                  .toString(),
+                            });
 
-                              _postTextController.clear();
-                            },
-                            child: Text("POST",
-                                style: GoogleFonts.roboto(
-                                    letterSpacing: 2,
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700)),
-                            style: ElevatedButton.styleFrom(
-                              side: BorderSide(
-                                  width: 1.0, color: Color(0xfffafafa)),
-                              shape: StadiumBorder(),
-                              primary: Color(0xfff5970a),
-                            )),
-                      ),
-                    ],
+                            _postTextController.clear();
+                          },
+                          child: Text("POST",
+                              style: GoogleFonts.roboto(
+                                  letterSpacing: 2,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700)),
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide(
+                                width: 1.0, color: Color(0xfffafafa)),
+                            shape: StadiumBorder(),
+                            primary: Color(0xfff5970a),
+                          )),
+                    ),
                   ),
+                  //    Row(
+                  //     children: [
+                  //       SizedBox(
+                  //         width: 20,
+                  //       ),
+                  //       Container(
+                  //         decoration: BoxDecoration(
+                  //           color: Color(0xffdfd1d1).withAlpha(150),
+                  //           border: Border.all(
+
+                  //               //color: Colors.red[500],
+                  //               ),
+                  //           borderRadius: BorderRadius.all(Radius.circular(30)),
+                  //         ),
+                  //         height: 30,
+                  //         width: 260,
+                  //         child: TextField(
+                  //           autofocus: true,
+                  //           controller: _postTextController,
+                  //           style: TextStyle(
+                  //               fontSize: 14,
+                  //               height: 1.5,
+                  //               fontWeight: FontWeight.w700),
+                  //           //controller: _controller,
+                  //           cursorColor: Colors.greenAccent,
+                  //           decoration: InputDecoration(
+                  //             border: OutlineInputBorder(
+                  //               borderSide: BorderSide(color: Colors.grey),
+                  //               borderRadius: BorderRadius.circular(30.0),
+                  //             ),
+                  //             contentPadding: EdgeInsets.symmetric(
+                  //                 vertical: 0, horizontal: 15),
+                  //             hintText: "Post what you're looking for",
+                  //           ),
+                  //           onChanged: (value) {
+                  //             setState(() {
+                  //               message = value;
+                  //             });
+                  //           },
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         width: 3,
+                  //       ),
+                  //       Container(
+                  //         width: 90,
+                  //         height: 32,
+                  //         child: ElevatedButton(
+                  //             onPressed: () async {
+                  //               print(user.uid);
+                  //               print("MMMMMMMMMMMMM");
+                  //               final senderData = await FirebaseFirestore
+                  //                   .instance
+                  //                   .collection('users')
+                  //                   .doc(user.uid)
+                  //                   .get();
+
+                  //               print("MMMMMMMMMMMMM");
+                  //               print(senderData.data());
+                  //               print("MMMMMMMMMMMMM");
+
+                  //               print("MMMMMMMMMMMMM");
+                  //               print(senderData['fullname']);
+                  //               print("MMMMMMMMMMMMM");
+                  //               final postId = uuid.v4();
+                  //               //   DocumentSnapshot doc =
+                  //               //       await postsRef.doc(user.uid).get();
+                  //               //   if (!doc.exists) {
+                  //               await FirebaseFirestore.instance
+                  //                   .collection('posts')
+                  //                   .doc(postId)
+                  //                   .set({
+                  //                 'id': postId,
+                  //                 'poster_id': user.uid,
+                  //                 'name': senderData['fullname'],
+                  //                 'imageurl': senderData['imageurl'],
+                  //                 'msg': message,
+
+                  //                 'timePosted': DateFormat("MM/dd/yyyy")
+                  //                         .format(DateTime.now()) +
+                  //                     " " +
+                  //                     DateFormat("hh:mm:ss a").format(
+                  //                         DateTime.now()), //DateTime.now(),
+                  //                 "timestamp": DateTime.now()
+                  //                     .millisecondsSinceEpoch
+                  //                     .toString(),
+                  //               });
+
+                  //               _postTextController.clear();
+                  //             },
+                  //             child: Text("POST",
+                  //                 style: GoogleFonts.roboto(
+                  //                     letterSpacing: 2,
+                  //                     fontSize: 16,
+                  //                     color: Colors.black,
+                  //                     fontWeight: FontWeight.w700)),
+                  //             style: ElevatedButton.styleFrom(
+                  //               side: BorderSide(
+                  //                   width: 1.0, color: Color(0xfffafafa)),
+                  //               shape: StadiumBorder(),
+                  //               primary: Color(0xfff5970a),
+                  //             )),
+                  //       ),
+                  //     ],
+                  //   ),
                 ),
                 SizedBox(
                   height: 8,
